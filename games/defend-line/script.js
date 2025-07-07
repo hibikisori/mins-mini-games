@@ -10,6 +10,10 @@ class PathGuardGame {
     this.placementMode = false;
     this.gameSpeed = 1;
     
+    // Mobile detection
+    this.isMobile = window.innerWidth <= 768;
+    this.isTouch = 'ontouchstart' in window;
+    
     // Game state
     this.wave = 1;
     this.lives = 10;
@@ -83,6 +87,18 @@ class PathGuardGame {
         color: '#FFEB3B',
         name: 'Electric Tower',
         description: 'Chain lightning between enemies'
+      },
+      trap: {
+        cost: 20,
+        damage: 50,
+        range: 25,
+        fireRate: 0,
+        projectileSpeed: 0,
+        color: '#8D6E63',
+        name: 'Spike Trap',
+        description: 'Damages enemies that walk over it',
+        isTrap: true,
+        uses: 3
       }
     };
     
@@ -120,6 +136,21 @@ class PathGuardGame {
     let width = containerRect.width - 40; // Padding
     let height = width / aspectRatio;
     
+    // Mobile adjustments
+    if (this.isMobile) {
+      width = containerRect.width - 20; // Less padding on mobile
+      height = width / aspectRatio;
+      
+      // In portrait mode, limit height
+      if (window.innerHeight > window.innerWidth) {
+        const maxHeight = window.innerHeight * 0.5; // 50% of viewport height
+        if (height > maxHeight) {
+          height = maxHeight;
+          width = height * aspectRatio;
+        }
+      }
+    }
+    
     if (height > containerRect.height - 40) {
       height = containerRect.height - 40;
       width = height * aspectRatio;
@@ -127,6 +158,11 @@ class PathGuardGame {
     
     this.canvas.style.width = width + 'px';
     this.canvas.style.height = height + 'px';
+    
+    // Disable touch scrolling on canvas
+    if (this.isTouch) {
+      this.canvas.style.touchAction = 'none';
+    }
   }
   
   setupEventListeners() {
@@ -138,13 +174,25 @@ class PathGuardGame {
       });
     });
     
-    // Canvas click for tower placement
-    this.canvas.addEventListener('click', (e) => {
+    // Canvas interaction for both mouse and touch
+    const handleCanvasInteraction = (e) => {
+      e.preventDefault();
       const rect = this.canvas.getBoundingClientRect();
       const scaleX = this.canvas.width / rect.width;
       const scaleY = this.canvas.height / rect.height;
-      const x = (e.clientX - rect.left) * scaleX;
-      const y = (e.clientY - rect.top) * scaleY;
+      
+      let clientX, clientY;
+      if (e.type.startsWith('touch')) {
+        const touch = e.touches[0] || e.changedTouches[0];
+        clientX = touch.clientX;
+        clientY = touch.clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
+      const x = (clientX - rect.left) * scaleX;
+      const y = (clientY - rect.top) * scaleY;
       
       if (this.selectedTower && this.placementMode) {
         this.placeTower(x, y);
@@ -157,18 +205,37 @@ class PathGuardGame {
           this.deselectTower();
         }
       }
-    });
+    };
     
-    // Canvas mouse move for placement preview
-    this.canvas.addEventListener('mousemove', (e) => {
+    // Add both mouse and touch listeners
+    this.canvas.addEventListener('click', handleCanvasInteraction);
+    this.canvas.addEventListener('touchend', handleCanvasInteraction);
+    
+    // Canvas mouse/touch move for placement preview
+    const handleCanvasMove = (e) => {
       if (this.placementMode) {
         const rect = this.canvas.getBoundingClientRect();
         const scaleX = this.canvas.width / rect.width;
         const scaleY = this.canvas.height / rect.height;
-        this.mouseX = (e.clientX - rect.left) * scaleX;
-        this.mouseY = (e.clientY - rect.top) * scaleY;
+        
+        let clientX, clientY;
+        if (e.type.startsWith('touch')) {
+          const touch = e.touches[0];
+          if (!touch) return;
+          clientX = touch.clientX;
+          clientY = touch.clientY;
+        } else {
+          clientX = e.clientX;
+          clientY = e.clientY;
+        }
+        
+        this.mouseX = (clientX - rect.left) * scaleX;
+        this.mouseY = (clientY - rect.top) * scaleY;
       }
-    });
+    };
+    
+    this.canvas.addEventListener('mousemove', handleCanvasMove);
+    this.canvas.addEventListener('touchmove', handleCanvasMove);
     
 
     // Game controls
@@ -208,15 +275,63 @@ class PathGuardGame {
       document.getElementById('gameOverlay').classList.add('hidden');
     });
     
-    // Escape key to cancel placement
+    // Enhanced keyboard controls
     document.addEventListener('keydown', (e) => {
+      // Cancel placement with Escape
       if (e.key === 'Escape' && this.placementMode) {
         this.cancelPlacement();
+        return;
+      }
+      
+      // Start wave or game with Enter/Space
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (!this.gameRunning) {
+          this.startWave();
+        }
+        return;
+      }
+      
+      // Quick tower selection hotkeys
+      const towerHotkeys = {
+        '1': 'sniper',
+        '2': 'machine', 
+        '3': 'explosive',
+        '4': 'freeze',
+        '5': 'poison',
+        '6': 'electric',
+        '7': 'trap'
+      };
+      
+      if (towerHotkeys[e.key]) {
+        this.selectTower(towerHotkeys[e.key]);
+        return;
+      }
+      
+      // Pause/Resume with P
+      if (e.key === 'p' || e.key === 'P') {
+        this.togglePause();
+        return;
+      }
+      
+      // Speed controls
+      if (e.key === '-' || e.key === '_') {
+        this.setGameSpeed(0.5);
+        return;
+      }
+      if (e.key === '=' || e.key === '+') {
+        this.setGameSpeed(2);
+        return;
+      }
+      if (e.key === '0') {
+        this.setGameSpeed(1);
+        return;
       }
     });
     
     // Window resize
     window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 768;
       this.resizeCanvas();
     });
   }
@@ -283,8 +398,8 @@ class PathGuardGame {
     const towerData = this.towerTypes[this.selectedTower];
     
     // Check if position is valid
-    if (this.isValidTowerPosition(x, y)) {
-      this.towers.push({
+    if (this.isValidTowerPosition(x, y, towerData.isTrap)) {
+      const newTower = {
         x: x,
         y: y,
         type: this.selectedTower,
@@ -292,7 +407,15 @@ class PathGuardGame {
         lastFired: 0,
         target: null,
         level: 1
-      });
+      };
+      
+      // Add trap-specific properties
+      if (towerData.isTrap) {
+        newTower.remainingUses = towerData.uses;
+        newTower.triggered = false;
+      }
+      
+      this.towers.push(newTower);
       
       this.gold -= towerData.cost;
       this.cancelPlacement();
@@ -307,21 +430,37 @@ class PathGuardGame {
     }
   }
   
-  isValidTowerPosition(x, y) {
-    const minDistance = 40;
+  isValidTowerPosition(x, y, isTrap = false) {
+    const minDistance = isTrap ? 20 : 40; // Traps can be closer together
     
-    // Check distance from other towers
+    // Check distance from other towers (except for traps which can be closer)
     for (let tower of this.towers) {
       const dist = Math.sqrt((x - tower.x) ** 2 + (y - tower.y) ** 2);
       if (dist < minDistance) return false;
     }
     
-    // Check if not on path
-    for (let i = 0; i < this.path.length - 1; i++) {
-      const pathStart = this.path[i];
-      const pathEnd = this.path[i + 1];
-      const distToPath = this.distanceToLineSegment(x, y, pathStart.x, pathStart.y, pathEnd.x, pathEnd.y);
-      if (distToPath < 30) return false;
+    // Traps can be placed ON the path, regular towers cannot
+    if (!isTrap) {
+      // Check if not on path (for regular towers)
+      for (let i = 0; i < this.path.length - 1; i++) {
+        const pathStart = this.path[i];
+        const pathEnd = this.path[i + 1];
+        const distToPath = this.distanceToLineSegment(x, y, pathStart.x, pathStart.y, pathEnd.x, pathEnd.y);
+        if (distToPath < 30) return false;
+      }
+    } else {
+      // For traps, check if they're close enough to the path
+      let onPath = false;
+      for (let i = 0; i < this.path.length - 1; i++) {
+        const pathStart = this.path[i];
+        const pathEnd = this.path[i + 1];
+        const distToPath = this.distanceToLineSegment(x, y, pathStart.x, pathStart.y, pathEnd.x, pathEnd.y);
+        if (distToPath < 35) {
+          onPath = true;
+          break;
+        }
+      }
+      if (!onPath) return false;
     }
     
     return true;
@@ -550,6 +689,34 @@ class PathGuardGame {
         if (enemy.poisonEffect <= 0) {
           delete enemy.poisonEffect;
           delete enemy.poisonDamage;
+        }
+      }
+      
+      // Check trap collisions
+      for (let tower of this.towers) {
+        if (tower.isTrap && tower.remainingUses > 0) {
+          const distance = Math.sqrt((enemy.x - tower.x) ** 2 + (enemy.y - tower.y) ** 2);
+          if (distance < tower.range) {
+            // Trigger trap
+            enemy.health -= tower.damage;
+            tower.remainingUses--;
+            tower.triggered = true;
+            
+            this.createHitParticles(tower.x, tower.y);
+            this.showMessage(`Trap activated! -${tower.damage} damage`, tower.color);
+            
+            // Remove trap if no uses left
+            if (tower.remainingUses <= 0) {
+              setTimeout(() => {
+                const index = this.towers.indexOf(tower);
+                if (index > -1) {
+                  this.towers.splice(index, 1);
+                }
+              }, 500); // Small delay for visual effect
+            }
+            
+            break; // One trap per enemy per frame
+          }
         }
       }
       
@@ -830,7 +997,23 @@ class PathGuardGame {
   }
   
   drawPath() {
-    this.ctx.strokeStyle = '#666';
+    // Draw path shadow first
+    this.ctx.save();
+    this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+    this.ctx.lineWidth = 35;
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.path[0].x + 2, this.path[0].y + 2);
+    for (let i = 1; i < this.path.length; i++) {
+      this.ctx.lineTo(this.path[i].x + 2, this.path[i].y + 2);
+    }
+    this.ctx.stroke();
+    this.ctx.restore();
+    
+    // Draw main path
+    this.ctx.strokeStyle = '#555';
     this.ctx.lineWidth = 30;
     this.ctx.lineCap = 'round';
     this.ctx.lineJoin = 'round';
@@ -841,47 +1024,159 @@ class PathGuardGame {
       this.ctx.lineTo(this.path[i].x, this.path[i].y);
     }
     this.ctx.stroke();
+    
+    // Draw path center line
+    this.ctx.strokeStyle = '#777';
+    this.ctx.lineWidth = 4;
+    this.ctx.setLineDash([10, 10]);
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.path[0].x, this.path[0].y);
+    for (let i = 1; i < this.path.length; i++) {
+      this.ctx.lineTo(this.path[i].x, this.path[i].y);
+    }
+    this.ctx.stroke();
+    this.ctx.setLineDash([]); // Reset line dash
+    
+    // Draw start and end markers
+    // Start marker (green)
+    this.ctx.fillStyle = '#4CAF50';
+    this.ctx.beginPath();
+    this.ctx.arc(this.path[0].x, this.path[0].y, 20, 0, Math.PI * 2);
+    this.ctx.fill();
+    this.ctx.fillStyle = '#FFF';
+    this.ctx.font = 'bold 14px Arial';
+    this.ctx.textAlign = 'center';
+    this.ctx.fillText('START', this.path[0].x, this.path[0].y + 4);
+    
+    // End marker (red)
+    const endPoint = this.path[this.path.length - 1];
+    this.ctx.fillStyle = '#F44336';
+    this.ctx.beginPath();
+    this.ctx.arc(endPoint.x, endPoint.y, 20, 0, Math.PI * 2);
+    this.ctx.fill();
+    this.ctx.fillStyle = '#FFF';
+    this.ctx.fillText('END', endPoint.x, endPoint.y + 4);
   }
   
   drawTowers() {
     for (let tower of this.towers) {
       // Draw range for selected tower
       if (this.selectedExistingTower === tower) {
+        this.ctx.save();
         this.ctx.strokeStyle = tower.color + '40';
         this.ctx.lineWidth = 2;
+        this.ctx.setLineDash([5, 5]);
         this.ctx.beginPath();
         this.ctx.arc(tower.x, tower.y, tower.range, 0, Math.PI * 2);
         this.ctx.stroke();
+        this.ctx.setLineDash([]);
+        this.ctx.restore();
       }
       
-      // Draw tower
-      this.ctx.fillStyle = tower.color;
-      this.ctx.beginPath();
-      this.ctx.arc(tower.x, tower.y, 15, 0, Math.PI * 2);
-      this.ctx.fill();
-      
-      // Highlight selected tower
-      this.ctx.strokeStyle = this.selectedExistingTower === tower ? '#FFD700' : '#333';
-      this.ctx.lineWidth = this.selectedExistingTower === tower ? 3 : 2;
-      this.ctx.stroke();
-      
-      // Draw tower type indicator
-      this.ctx.fillStyle = '#FFF';
-      this.ctx.font = 'bold 12px Arial';
-      this.ctx.textAlign = 'center';
-      const typeChar = tower.type.charAt(0).toUpperCase();
-      this.ctx.fillText(typeChar, tower.x, tower.y + 4);
-      
-      // Draw firing indicator
-      if (tower.target && tower.lastFired < 10) {
-        this.ctx.strokeStyle = tower.color;
-        this.ctx.lineWidth = 3;
+      // Draw tower/trap differently
+      if (tower.isTrap) {
+        // Draw trap shadow
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        this.ctx.translate(tower.x + 2, tower.y + 2);
+        this.ctx.rotate(Math.PI / 4);
+        this.ctx.fillRect(-7, -7, 14, 14);
+        this.ctx.restore();
+        
+        // Draw trap as a square/diamond
+        const size = 12;
+        this.ctx.fillStyle = tower.remainingUses > 0 ? tower.color : '#666';
+        this.ctx.save();
+        this.ctx.translate(tower.x, tower.y);
+        this.ctx.rotate(Math.PI / 4);
+        this.ctx.fillRect(-size/2, -size/2, size, size);
+        this.ctx.restore();
+        
+        // Draw trap border with glow effect
+        this.ctx.save();
+        this.ctx.strokeStyle = this.selectedExistingTower === tower ? '#FFD700' : '#333';
+        this.ctx.lineWidth = this.selectedExistingTower === tower ? 3 : 2;
+        if (this.selectedExistingTower === tower) {
+          this.ctx.shadowBlur = 10;
+          this.ctx.shadowColor = '#FFD700';
+        }
+        this.ctx.translate(tower.x, tower.y);
+        this.ctx.rotate(Math.PI / 4);
+        this.ctx.strokeRect(-size/2, -size/2, size, size);
+        this.ctx.restore();
+        
+        // Show remaining uses
+        this.ctx.fillStyle = '#FFF';
+        this.ctx.font = 'bold 10px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(tower.remainingUses.toString(), tower.x, tower.y + 3);
+      } else {
+        // Draw tower shadow
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
         this.ctx.beginPath();
-        this.ctx.moveTo(tower.x, tower.y);
-        this.ctx.lineTo(tower.target.x, tower.target.y);
+        this.ctx.arc(tower.x + 3, tower.y + 3, 15, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.restore();
+        
+        // Draw regular tower as circle with gradient
+        const gradient = this.ctx.createRadialGradient(tower.x - 5, tower.y - 5, 0, tower.x, tower.y, 15);
+        gradient.addColorStop(0, tower.color);
+        gradient.addColorStop(1, this.darkenColor(tower.color, 0.3));
+        this.ctx.fillStyle = gradient;
+        this.ctx.beginPath();
+        this.ctx.arc(tower.x, tower.y, 15, 0, Math.PI * 2);
+        this.ctx.fill();
+        
+        // Highlight selected tower with glow
+        this.ctx.save();
+        this.ctx.strokeStyle = this.selectedExistingTower === tower ? '#FFD700' : '#333';
+        this.ctx.lineWidth = this.selectedExistingTower === tower ? 3 : 2;
+        if (this.selectedExistingTower === tower) {
+          this.ctx.shadowBlur = 15;
+          this.ctx.shadowColor = '#FFD700';
+        }
         this.ctx.stroke();
+        this.ctx.restore();
+        
+        // Draw tower type indicator with better styling
+        this.ctx.save();
+        this.ctx.fillStyle = '#FFF';
+        this.ctx.font = 'bold 12px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.strokeStyle = '#000';
+        this.ctx.lineWidth = 1;
+        const typeChar = tower.type.charAt(0).toUpperCase();
+        this.ctx.strokeText(typeChar, tower.x, tower.y + 4);
+        this.ctx.fillText(typeChar, tower.x, tower.y + 4);
+        this.ctx.restore();
+        
+        // Draw firing indicator with enhanced visuals
+        if (tower.target && tower.lastFired < 10) {
+          this.ctx.save();
+          this.ctx.strokeStyle = tower.color;
+          this.ctx.lineWidth = 4;
+          this.ctx.shadowBlur = 8;
+          this.ctx.shadowColor = tower.color;
+          this.ctx.beginPath();
+          this.ctx.moveTo(tower.x, tower.y);
+          this.ctx.lineTo(tower.target.x, tower.target.y);
+          this.ctx.stroke();
+          this.ctx.restore();
+        }
       }
     }
+  }
+  
+  // Helper function to darken colors
+  darkenColor(color, factor) {
+    // Simple color darkening - works with hex colors
+    const hex = color.replace('#', '');
+    const r = Math.max(0, parseInt(hex.substr(0, 2), 16) * (1 - factor));
+    const g = Math.max(0, parseInt(hex.substr(2, 2), 16) * (1 - factor));
+    const b = Math.max(0, parseInt(hex.substr(4, 2), 16) * (1 - factor));
+    return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
   }
   
   drawEnemies() {

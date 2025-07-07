@@ -1,4 +1,4 @@
-# 🎮 Min's Mini Games
+# 🎮 Web Browser Games
 
 A collection of interactive browser-based games built with HTML5, CSS3, and JavaScript.
 

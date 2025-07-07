@@ -2424,537 +2424,107 @@ body.particles-disabled .particle-container {
   pointer-events: none;
 }
 
-/* Enhanced customization form */
-.form-check-input[type="checkbox"] {
-  width: 1.2em;
-  height: 1.2em;
-  margin-top: 0.15em;
-}
-
-.form-check-label {
-  font-weight: 500;
-  padding-left: 0.5rem;
-}
-
-.form-check {
-  margin-bottom: 0.8rem;
-}
-
-.settings-section {
-  background: var(--accent);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid var(--primary);
-}
-
-.settings-section h5 {
-  color: var(--primary);
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-/* Visual Effects Toggle Button */
-.visual-effects-toggle {
-  border: 2px solid var(--accent);
-  border-radius: 12px;
-  padding: 1.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: var(--bg); /* Same as typography select background */
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.visual-effects-toggle:hover {
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.visual-effects-toggle.active {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: var(--bg);
-}
-
-.visual-effects-toggle.active .toggle-content strong {
-  color: var(--bg) !important;
-}
-
-.visual-effects-toggle.active .toggle-content h6 {
-  color: var(--bg) !important;
-}
-
-.visual-effects-toggle.active .toggle-content small {
-  color: var(--bg) !important;
-  opacity: 0.9;
-}
-
-.toggle-content h6 {
-  color: var(--primary) !important;
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem !important;
-  text-align: center;
-}
-
-.visual-effects-toggle::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.visual-effects-toggle:hover::before {
-  left: 100%;
-}
-
-.toggle-content strong {
-  font-weight: 700;
-  color: var(--primary) !important;
-  font-size: 1.05rem;
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.toggle-content small {
-  color: var(--text) !important;
-  opacity: 0.85;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  font-style: italic;
-}
-
-/* Theme-specific font preservation for theme preview buttons */
-/* Apply fonts to entire theme preview buttons, not just theme names */
-
-/* Default font themes */
-.theme-preview[data-theme="default-day"],
-.theme-preview[data-theme="default-night"],
-.theme-preview[data-theme="minimalist-day"],
-.theme-preview[data-theme="minimalist-night"],
-.theme-preview[data-theme="noir-day"],
-.theme-preview[data-theme="noir-night"],
-.theme-preview[data-theme="slate-day"],
-.theme-preview[data-theme="slate-night"],
-.theme-preview[data-theme="ocean-day"],
-.theme-preview[data-theme="ocean-night"],
-.theme-preview[data-theme="forest-day"],
-.theme-preview[data-theme="forest-night"],
-.theme-preview[data-theme="pastel-day"],
-.theme-preview[data-theme="pastel-night"],
-.theme-preview[data-theme="sunset-day"],
-.theme-preview[data-theme="sunset-night"],
-.theme-preview[data-theme="lavender-day"],
-.theme-preview[data-theme="lavender-night"],
-.theme-preview[data-theme="cherry-day"],
-.theme-preview[data-theme="cherry-night"],
-.theme-preview[data-theme="emerald-day"],
-.theme-preview[data-theme="emerald-night"],
-.theme-preview[data-theme="royal-day"],
-.theme-preview[data-theme="royal-night"],
-.theme-preview[data-theme="coffee-day"],
-.theme-preview[data-theme="coffee-night"],
-.theme-preview[data-theme="arctic-day"],
-.theme-preview[data-theme="arctic-night"],
-.theme-preview[data-theme="golden-day"],
-.theme-preview[data-theme="golden-night"],
-.theme-preview[data-theme="grape-day"],
-.theme-preview[data-theme="grape-night"],
-.theme-preview[data-theme="steel-day"],
-.theme-preview[data-theme="steel-night"],
-.theme-preview[data-theme="volcano-day"],
-.theme-preview[data-theme="volcano-night"],
-.theme-preview[data-theme="mint-day"],
-.theme-preview[data-theme="mint-night"],
-.theme-preview[data-theme="rose-day"],
-.theme-preview[data-theme="rose-night"],
-.theme-preview[data-theme="cosmic-day"],
-.theme-preview[data-theme="cosmic-night"],
-.theme-preview[data-theme="autumn-day"],
-.theme-preview[data-theme="autumn-night"],
-.theme-preview[data-theme="crystal-day"],
-.theme-preview[data-theme="crystal-night"],
-.theme-preview[data-theme="mystic-day"],
-.theme-preview[data-theme="mystic-night"],
-.theme-preview[data-theme="shadow-day"],
-.theme-preview[data-theme="shadow-night"],
-.theme-preview[data-theme="phoenix-day"],
-.theme-preview[data-theme="phoenix-night"],
-.theme-preview[data-theme="galaxy-day"],
-.theme-preview[data-theme="galaxy-night"] {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-}
-
-/* Orbitron font themes */
-.theme-preview[data-theme="holographic-day"],
-.theme-preview[data-theme="holographic-night"],
-.theme-preview[data-theme="cyberpunk-day"],
-.theme-preview[data-theme="cyberpunk-night"] {
-  font-family: "Orbitron", monospace !important;
-}
-
-/* Cinzel font themes */
-.theme-preview[data-theme="dragon-day"],
-.theme-preview[data-theme="dragon-night"],
-.theme-preview[data-theme="angel-day"],
-.theme-preview[data-theme="angel-night"] {
-  font-family: "Cinzel", serif !important;
-}
-
-/* Creepster font themes */
-.theme-preview[data-theme="demon-day"],
-.theme-preview[data-theme="demon-night"] {
-  font-family: "Creepster", cursive !important;
-}
-
-/* Nosifer font themes */
-.theme-preview[data-theme="witch-day"],
-.theme-preview[data-theme="witch-night"] {
-  font-family: "Nosifer", cursive !important;
-}
-
-/* Righteous font themes */
-.theme-preview[data-theme="synthwave-day"],
-.theme-preview[data-theme="synthwave-night"] {
-  font-family: "Righteous", cursive !important;
-}
-
-/* Silkscreen font themes */
-.theme-preview[data-theme="retro-day"],
-.theme-preview[data-theme="retro-night"],
-.theme-preview[data-theme="neon-day"],
-.theme-preview[data-theme="neon-night"],
-.theme-preview[data-theme="neonpink-day"],
-.theme-preview[data-theme="neonpink-night"] {
-  font-family: "Silkscreen", monospace !important;
-}
-
-/* Fredoka One font themes */
-.theme-preview[data-theme="kawaii-day"],
-.theme-preview[data-theme="kawaii-night"] {
-  font-family: "Fredoka One", cursive !important;
-}
-
-/* Monoton font themes */
-.theme-preview[data-theme="vaporwave-day"],
-.theme-preview[data-theme="vaporwave-night"],
-.theme-preview[data-theme="miami-day"],
-.theme-preview[data-theme="miami-night"] {
-  font-family: "Monoton", cursive !important;
-}
-
-/* Consolas/Monaco font themes */
-.theme-preview[data-theme="terminal-day"],
-.theme-preview[data-theme="terminal-night"],
-.theme-preview[data-theme="matrix-day"],
-.theme-preview[data-theme="matrix-night"] {
-  font-family: "Consolas", "Monaco", monospace !important;
-}
-
-/* Default fallback for all other theme previews */
-.theme-preview {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-}
-
-/* Theme-specific click shake animations based on theme personality */
-
-/* Gentle shake for calm/peaceful themes */
-@keyframes gentle-shake {
-  0%, 100% { transform: translateX(0) translateY(-3px) scale(1.05); }
-  25% { transform: translateX(-2px) translateY(-3px) scale(1.05); }
-  75% { transform: translateX(2px) translateY(-3px) scale(1.05); }
-}
-
-/* Soft pulse for very gentle themes */
-@keyframes soft-pulse {
-  0%, 100% { transform: scale(1.05) translateY(-3px); }
-  50% { transform: scale(1.08) translateY(-4px); }
-}
-
-/* Medium shake for energetic themes */
-@keyframes medium-shake {
-  0%, 100% { transform: translateX(0) translateY(-3px) scale(1.05); }
-  10% { transform: translateX(-4px) translateY(-2px) scale(1.05); }
-  20% { transform: translateX(4px) translateY(-4px) scale(1.05); }
-  30% { transform: translateX(-3px) translateY(-3px) scale(1.05); }
-  40% { transform: translateX(3px) translateY(-2px) scale(1.05); }
-  50% { transform: translateX(-2px) translateY(-4px) scale(1.05); }
-  60% { transform: translateX(2px) translateY(-3px) scale(1.05); }
-  70% { transform: translateX(-1px) translateY(-2px) scale(1.05); }
-  80% { transform: translateX(1px) translateY(-4px) scale(1.05); }
-  90% { transform: translateX(-1px) translateY(-3px) scale(1.05); }
-}
-
-/* Aggressive shake for intense themes */
-@keyframes aggressive-shake {
-  0%, 100% { transform: translateX(0) translateY(-3px) scale(1.05); }
-  5% { transform: translateX(-8px) translateY(-1px) scale(1.05); }
-  10% { transform: translateX(7px) translateY(-5px) scale(1.05); }
-  15% { transform: translateX(-6px) translateY(-2px) scale(1.05); }
-  20% { transform: translateX(8px) translateY(-4px) scale(1.05); }
-  25% { transform: translateX(-7px) translateY(-1px) scale(1.05); }
-  30% { transform: translateX(6px) translateY(-5px) scale(1.05); }
-  35% { transform: translateX(-5px) translateY(-2px) scale(1.05); }
-  40% { transform: translateX(4px) translateY(-4px) scale(1.05); }
-  45% { transform: translateX(-3px) translateY(-3px) scale(1.05); }
-  50% { transform: translateX(5px) translateY(-1px) scale(1.05); }
-  55% { transform: translateX(-4px) translateY(-4px) scale(1.05); }
-  60% { transform: translateX(3px) translateY(-2px) scale(1.05); }
-  65% { transform: translateX(-2px) translateY(-5px) scale(1.05); }
-  70% { transform: translateX(3px) translateY(-3px) scale(1.05); }
-  75% { transform: translateX(-2px) translateY(-1px) scale(1.05); }
-  80% { transform: translateX(2px) translateY(-4px) scale(1.05); }
-  85% { transform: translateX(-1px) translateY(-2px) scale(1.05); }
-  90% { transform: translateX(1px) translateY(-3px) scale(1.05); }
-  95% { transform: translateX(-1px) translateY(-3px) scale(1.05); }
-}
-
-/* Mystical wobble for magical themes */
-@keyframes mystical-wobble {
-  0%, 100% { transform: rotate(0deg) translateY(-3px) scale(1.05); }
-  10% { transform: rotate(2deg) translateY(-4px) scale(1.06); }
-  20% { transform: rotate(-1deg) translateY(-2px) scale(1.04); }
-  30% { transform: rotate(3deg) translateY(-5px) scale(1.07); }
-  40% { transform: rotate(-2deg) translateY(-3px) scale(1.05); }
-  50% { transform: rotate(1deg) translateY(-4px) scale(1.06); }
-  60% { transform: rotate(-3deg) translateY(-2px) scale(1.04); }
-  70% { transform: rotate(2deg) translateY(-5px) scale(1.07); }
-  80% { transform: rotate(-1deg) translateY(-3px) scale(1.05); }
-  90% { transform: rotate(1deg) translateY(-4px) scale(1.06); }
-}
-
-/* Button feedback animations for JS-controlled effects */
-@keyframes button-shake-soft {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-1px); }
-  75% { transform: translateX(1px); }
-}
-
-@keyframes button-shake-aggressive {
-  0%, 100% { transform: translateX(0) translateY(0); }
-  10% { transform: translateX(-5px) translateY(-2px); }
-  20% { transform: translateX(5px) translateY(2px); }
-  30% { transform: translateX(-4px) translateY(-1px); }
-  40% { transform: translateX(4px) translateY(1px); }
-  50% { transform: translateX(-3px) translateY(-1px); }
-  60% { transform: translateX(3px) translateY(1px); }
-  70% { transform: translateX(-2px) translateY(0); }
-  80% { transform: translateX(2px) translateY(0); }
-  90% { transform: translateX(-1px) translateY(0); }
-}
-
-@keyframes button-pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-
-@keyframes button-bounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  25% { transform: translateY(-6px) scale(1.05); }
-  50% { transform: translateY(3px) scale(0.95); }
-  75% { transform: translateY(-2px) scale(1.02); }
-}
-
-@keyframes button-glow {
-  0%, 100% { 
-    transform: scale(1); 
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-  }
-  50% { 
-    transform: scale(1.05); 
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-  }
-}
-
-@keyframes button-wobble {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  25% { transform: rotate(-2deg) scale(1.03); }
-  50% { transform: rotate(2deg) scale(1.06); }
-  75% { transform: rotate(-1deg) scale(1.02); }
-}
-
-@keyframes holographic-shimmer {
-  0% { 
-    background-position: 0% 0%;
-    filter: hue-rotate(0deg) brightness(1.2);
-  }
-  25% { 
-    background-position: 100% 0%;
-    filter: hue-rotate(30deg) brightness(1.4);
-  }
-  50% { 
-    background-position: 100% 100%;
-    filter: hue-rotate(60deg) brightness(1.6);
-  }
-  75% { 
-    background-position: 0% 100%;
-    filter: hue-rotate(90deg) brightness(1.4);
-  }
-  100% { 
-    background-position: 0% 0%;
-    filter: hue-rotate(120deg) brightness(1.2);
-  }
-}
-
-/* Continue Game Button Styles */
-#continueGameBtn {
-  background: linear-gradient(135deg, #28a745, #20c997);
-  border: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-}
-
-#continueGameBtn:hover {
-  background: linear-gradient(135deg, #218838, #1ba085);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
-}
-
-#continueGameBtn:active {
-  transform: translateY(0);
-}
-
-/* Floating Continue Game Button */
-.floating-continue-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: linear-gradient(135deg, #28a745, #20c997);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 15px 25px;
-  font-size: 16px;
-  font-weight: 600;
-  box-shadow: 0 4px 20px rgba(40, 167, 69, 0.4);
-  transition: all 0.3s ease;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.floating-continue-btn:hover {
-  background: linear-gradient(135deg, #218838, #1ba085);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 25px rgba(40, 167, 69, 0.5);
-  color: white;
-}
-
-.floating-continue-btn:active {
-  transform: translateY(-1px);
-}
-
-.floating-continue-btn .btn-text {
-  white-space: nowrap;
-}
-
-/* Responsive navbar adjustments */
+/* Enhanced mobile navigation */
 @media (max-width: 768px) {
-  .floating-continue-btn {
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 20px;
-    font-size: 14px;
+  /* Auto-hide navbar on scroll down, show on scroll up */
+  .navbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    transition: transform 0.3s ease-in-out;
   }
   
-  .floating-continue-btn .btn-text {
+  .navbar.navbar-hidden {
+    transform: translateY(-100%);
+  }
+  
+  /* Adjust body padding for fixed navbar */
+  body {
+    padding-top: 76px;
+  }
+  
+  /* Game containers on mobile */
+  .game-container {
+    height: calc(100vh - 76px);
+    padding: 0.5rem;
+  }
+  
+  /* Mobile orientation message */
+  .mobile-orientation-message {
     display: none;
-  }
-  
-  .floating-continue-btn {
-    border-radius: 50px;
-    width: 50px;
-    height: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    color: var(--text);
+    z-index: 9999;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding: 0;
+    text-align: center;
+    padding: 2rem;
   }
   
-  #continueGameBtn {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+  .mobile-orientation-message .rotate-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: rotate 2s infinite linear;
   }
   
-  #continueGameBtn .fas {
-    font-size: 0.8rem;
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Show orientation message for landscape games in portrait mode */
+  @media (orientation: portrait) {
+    .game-container.landscape-recommended .mobile-orientation-message {
+      display: flex;
+    }
+    
+    .game-container.landscape-recommended .game-area {
+      display: none;
+    }
+  }
+  
+  /* Touch improvements */
+  .btn, .tower-option, .theme-preview {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improve text readability on mobile */
+  body {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  /* Better spacing for mobile */
+  .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
-/* Theme Button Animation Classes - Higher specificity to override theme-highlight */
-.theme-preview.button-shake-soft,
-.theme-preview.theme-highlight.button-shake-soft,
-.theme-preview.selected.button-shake-soft {
-  animation: button-shake-soft 0.5s ease-in-out !important;
-}
-
-.theme-preview.button-shake-aggressive,
-.theme-preview.theme-highlight.button-shake-aggressive,
-.theme-preview.selected.button-shake-aggressive {
-  animation: button-shake-aggressive 0.5s ease-in-out !important;
-}
-
-.theme-preview.button-pulse,
-.theme-preview.theme-highlight.button-pulse,
-.theme-preview.selected.button-pulse {
-  animation: button-pulse 0.6s ease-in-out !important;
-}
-
-.theme-preview.button-bounce,
-.theme-preview.theme-highlight.button-bounce,
-.theme-preview.selected.button-bounce {
-  animation: button-bounce 0.8s ease-in-out !important;
-}
-
-.theme-preview.button-glow,
-.theme-preview.theme-highlight.button-glow,
-.theme-preview.selected.button-glow {
-  animation: button-glow 1s ease-in-out !important;
-}
-
-.theme-preview.button-wobble,
-.theme-preview.theme-highlight.button-wobble,
-.theme-preview.selected.button-wobble {
-  animation: button-wobble 0.8s ease-in-out !important;
-}
-
-/* Generic button animation classes for other elements */
-.button-shake-soft {
-  animation: button-shake-soft 0.5s ease-in-out;
-}
-
-.button-shake-aggressive {
-  animation: button-shake-aggressive 0.5s ease-in-out;
-}
-
-.button-pulse {
-  animation: button-pulse 0.6s ease-in-out;
-}
-
-.button-bounce {
-  animation: button-bounce 0.8s ease-in-out;
-}
-
-.button-glow {
-  animation: button-glow 1s ease-in-out;
-}
-
-.button-wobble {
-  animation: button-wobble 0.8s ease-in-out;
+/* Landscape mode optimizations for games */
+@media (max-width: 768px) and (orientation: landscape) {
+  .game-container {
+    height: 100vh;
+    padding: 0.25rem;
+  }
+  
+  .navbar {
+    height: 50px;
+  }
+  
+  body {
+    padding-top: 50px;
+  }
+  
+  .game-container {
+    height: calc(100vh - 50px);
+  }
 }
