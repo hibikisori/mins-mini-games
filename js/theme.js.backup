@@ -1,0 +1,721 @@
+// js/theme.js
+
+// Grab the toggle button and theme option elements
+const toggleBtn = document.getElementById('themeToggle');
+const themeOptions = document.querySelectorAll('.theme-option');
+const themePreviews = document.querySelectorAll('.theme-preview');
+const fontSelect = document.getElementById('fontSelect');
+
+// Store current theme mode (day/night)
+let currentMode = 'day';
+
+/**
+ * Apply a given theme: set data-theme, persist, and update toggle icon
+ * @param {string} theme - theme identifier (e.g., 'dark', 'light', 'miami-day')
+ * @param {HTMLElement} buttonElement - the button element that triggered the theme change
+ */
+function applyTheme(theme  const crystalEmojis = ['💎', '✨', '💠', '🔷', '🔸']; buttonElement = null) {
+  // Preserve current mode when switching themes
+  const [themeBase, themeMode] = theme.includes('-') ? theme.split('-') : [theme, 'day'];
+  
+  // If switching to a new theme, keep current mode
+  if (themeBase !== getCurrentThemeBase()) {
+    const newTheme = currentMode === 'night' ? `${themeBase}-night` : `${themeBase}-day`;
+    theme = newTheme;
+  } else {
+    // If toggling same theme, update current mode
+    currentMode = themeMode;
+  }
+  
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  
+  // Apply font settings
+  applyFontSettings();
+  
+  // Add button shake and color feedback
+  if (buttonElement) {
+    addButtonFeedback(buttonElement, theme);
+  }
+  
+  // Trigger particle effect from button position
+  createParticleEffect(theme, buttonElement);
+  
+  if (!toggleBtn) return;
+
+  // Determine icon: 🌙 for day variants (light), ☀️ for night variants
+  const [prefix, suffix] = theme.split('-');
+  if (suffix === 'night' || theme === 'dark') {
+    toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    currentMode = 'night';
+  } else {
+    toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    currentMode = 'day';
+  }
+}
+
+/**
+ * Get the current theme base (without -day/-night)
+ */
+function getCurrentThemeBase() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  return current.includes('-') ? current.split('-')[0] : current;
+}
+
+/**
+ * Toggle between day and night for the current theme group
+ */
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  let next;
+
+  if (current.includes('-')) {
+    // e.g., 'miami-day' -> 'miami-night'
+    const [prefix, suffix] = current.split('-');
+    const other = suffix === 'day' ? 'night' : 'day';
+    next = `${prefix}-${other}`;
+    currentMode = other;
+  } else {
+    // default light <-> dark
+    next = current === 'dark' ? 'light' : 'dark';
+    currentMode = next === 'dark' ? 'night' : 'day';
+  }
+  
+  // Add spin animation to toggle button
+  if (toggleBtn) {
+    toggleBtn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      toggleBtn.style.transform = 'scale(1)';
+    }, 150);
+  }
+  
+  applyTheme(next, toggleBtn);
+}
+
+/**
+ * Add button feedback with theme-appropriate animations and effects
+ * @param {HTMLElement} buttonElement - the button that was clicked
+ * @param {string} theme - the theme being applied
+ */
+function addButtonFeedback(buttonElement, theme) {
+  if (!buttonElement) return;
+  
+  // Get theme base for animation selection
+  const themeBase = theme.includes('-') ? theme.split('-')[0] : theme;
+  
+  // Get theme colors
+  const themeColors = getThemeColors(theme);
+  
+  // Choose animation based on theme personality
+  const animations = {
+    // Soft, gentle themes
+    pastel: 'button-shake-soft',
+    lavender: 'button-shake-soft',
+    mint: 'button-sheen',
+    angel: 'button-sheen',
+    
+    // Aggressive, intense themes
+    dragon: 'button-shake-aggressive',
+    demon: 'button-shake-aggressive',
+    volcano: 'button-shake-aggressive',
+    
+    // Magical, mystical themes
+    witch: 'button-wobble',
+    mystic: 'button-wobble',
+    cosmic: 'button-wobble',
+    galaxy: 'button-wobble',
+    
+    // Crystalline, shiny themes
+    crystal: 'button-sheen',
+    holographic: 'button-sheen',
+    
+    // Energetic, vibrant themes
+    neon: 'button-glow',
+    neonpink: 'button-glow',
+    cyberpunk: 'button-glow',
+    synthwave: 'button-glow',
+    
+    // Playful, bouncy themes
+    cherry: 'button-bounce',
+    sunset: 'button-bounce',
+    miami: 'button-bounce',
+    
+    // Steady, calm themes
+    ocean: 'button-pulse',
+    forest: 'button-pulse',
+    emerald: 'button-pulse',
+    
+    // Default for others
+    default: 'button-shake-soft'
+  };
+  
+  const animationClass = animations[themeBase] || animations.default;
+  
+  // Add animation class
+  buttonElement.classList.add(animationClass);
+  
+  // Add color feedback
+  const originalBoxShadow = buttonElement.style.boxShadow;
+  const originalTransform = buttonElement.style.transform;
+  
+  buttonElement.style.boxShadow = `0 0 20px ${themeColors.accent}`;
+  
+  setTimeout(() => {
+    buttonElement.style.boxShadow = originalBoxShadow;
+    buttonElement.style.transform = originalTransform;
+    buttonElement.classList.remove(animationClass);
+  }, 600);
+}
+
+/**
+ * Get theme colors for feedback effects
+ * @param {string} theme - the theme identifier
+ * @returns {Object} object with accent and secondary colors
+ */
+function getThemeColors(theme) {
+  const themeBase = theme.includes('-') ? theme.split('-')[0] : theme;
+  
+  const colors = {
+    dark: { accent: '#007bff', secondary: '#6c757d' },
+    light: { accent: '#007bff', secondary: '#6c757d' },
+    miami: { accent: '#ff6b9d', secondary: '#4ecdc4' },
+    ocean: { accent: '#00d4ff', secondary: '#0077be' },
+    forest: { accent: '#4caf50', secondary: '#2e7d32' },
+    sunset: { accent: '#ff9800', secondary: '#f57c00' },
+    purple: { accent: '#9c27b0', secondary: '#673ab7' },
+    mint: { accent: '#4db6ac', secondary: '#26a69a' },
+    cherry: { accent: '#e91e63', secondary: '#c2185b' },
+    gold: { accent: '#ffc107', secondary: '#ff8f00' },
+    emerald: { accent: '#4caf50', secondary: '#388e3c' },
+    rose: { accent: '#ff5722', secondary: '#d84315' },
+    lavender: { accent: '#9575cd', secondary: '#7e57c2' },
+    cosmic: { accent: '#3f51b5', secondary: '#303f9f' },
+    neon: { accent: '#e91e63', secondary: '#ad1457' },
+    neonpink: { accent: '#ff1744', secondary: '#d50000' },
+    matrix: { accent: '#00ff41', secondary: '#008f11' },
+    terminal: { accent: '#00ff41', secondary: '#008f11' },
+    cyberpunk: { accent: '#ff00ff', secondary: '#8000ff' },
+    synthwave: { accent: '#ff00ff', secondary: '#00ffff' },
+    vaporwave: { accent: '#ff00ff', secondary: '#00ffff' },
+    dragon: { accent: '#ff4444', secondary: '#cc0000' },
+    demon: { accent: '#ff0000', secondary: '#8b0000' },
+    phoenix: { accent: '#ff6600', secondary: '#cc3300' },
+    volcano: { accent: '#ff4500', secondary: '#cc3300' },
+    witch: { accent: '#9932cc', secondary: '#8b008b' },
+    mystic: { accent: '#6a5acd', secondary: '#483d8b' },
+    angel: { accent: '#fffacd', secondary: '#ffd700' },
+    holographic: { accent: '#ff00ff', secondary: '#00ffff' },
+    galaxy: { accent: '#4b0082', secondary: '#8a2be2' },
+    retro: { accent: '#ff6b35', secondary: '#f7931e' },
+    vintage: { accent: '#8b4513', secondary: '#a0522d' },
+    pastel: { accent: '#ffc0cb', secondary: '#ffb6c1' },
+    monochrome: { accent: '#ffffff', secondary: '#cccccc' },
+    sepia: { accent: '#daa520', secondary: '#cd853f' },
+    autumn: { accent: '#ff8c00', secondary: '#ff6347' },
+    winter: { accent: '#4682b4', secondary: '#5f9ea0' },
+    spring: { accent: '#98fb98', secondary: '#90ee90' },
+    summer: { accent: '#ffa500', secondary: '#ff7f50' }
+  };
+  
+  return colors[themeBase] || colors.dark;
+}
+function applyFontSettings() {
+  const selectedFont = fontSelect?.value;
+  
+  if (selectedFont && selectedFont !== 'theme-default') {
+    // Override with selected font
+    document.documentElement.style.setProperty('--font-family', `'${selectedFont}', sans-serif`);
+  } else {
+    // Use theme's default font (remove override)
+    document.documentElement.style.removeProperty('--font-family');
+  }
+  
+  // Store font preference
+  localStorage.setItem('selectedFont', selectedFont || 'theme-default');
+}
+
+/**
+ * Load font preferences from localStorage
+ */
+function loadFontPreferences() {
+  const selectedFont = localStorage.getItem('selectedFont');
+  
+  if (fontSelect && selectedFont) {
+    fontSelect.value = selectedFont;
+  }
+}
+
+/**
+ * Create particle effects based on theme
+ * @param {string} theme - the theme identifier
+ * @param {HTMLElement} buttonElement - the button element that triggered the effect
+ */
+function createParticleEffect(theme, buttonElement = null) {
+  const container = getOrCreateParticleContainer();
+  const themeBase = theme.includes('-') ? theme.split('-')[0] : theme;
+  
+  // Clear ALL existing particles to prevent stacking and overlap
+  container.innerHTML = '';
+  
+  // Also clear any pending timeouts to prevent delayed particles from previous themes
+  if (window.particleTimeouts) {
+    window.particleTimeouts.forEach(timeout => clearTimeout(timeout));
+  }
+  window.particleTimeouts = [];
+  
+  // Get button position for particle origin (fixed position)
+  let originX = window.innerWidth / 2; // default to center
+  let originY = window.innerHeight / 2;
+  
+  if (buttonElement) {
+    const rect = buttonElement.getBoundingClientRect();
+    originX = rect.left + rect.width / 2;
+    originY = rect.top + rect.height / 2;
+  }
+  
+  // Themes that should have particles
+  const particleThemes = {
+    matrix: () => createCodeRain(originX, originY),
+    terminal: () => createCodeRain(originX, originY),
+    dragon: () => createFireEffect('🔥', originX, originY),
+    demon: () => createFireEffect('🔥', originX, originY),
+    phoenix: () => createFireEffect('🔥', originX, originY),
+    volcano: () => createFireEffect('🌋', originX, originY),
+    forest: () => createNatureEffect(['🍃', '🌿'], originX, originY),
+    ocean: () => createNatureEffect(['💧', '🌊'], originX, originY),
+    mint: () => createNatureEffect(['🍃', '💚'], originX, originY),
+    emerald: () => createNatureEffect(['💎', '💚'], originX, originY),
+    cherry: () => createNatureEffect(['🌸', '🌺'], originX, originY),
+    rose: () => createNatureEffect(['🌹', '💖'], originX, originY),
+    lavender: () => createNatureEffect(['💜', '🌸'], originX, originY),
+    cosmic: () => createSpaceEffect(originX, originY),
+    galaxy: () => createSpaceEffect(originX, originY),
+    witch: () => createMagicEffect(originX, originY),
+    mystic: () => createMagicEffect(originX, originY),
+    angel: () => createAngelEffect(originX, originY),
+    holographic: () => createHolographicEffect(originX, originY),
+    neon: () => createNeonEffect(originX, originY),
+    neonpink: () => createNeonEffect(originX, originY),
+    cyberpunk: () => createCyberpunkEffect(originX, originY),
+    synthwave: () => createSynthwaveEffect(originX, originY),
+    vaporwave: () => createVaporwaveEffect(originX, originY),
+    crystal: () => createCrystalEffect(originX, originY),
+    autumn: () => createNatureEffect(['🍂', '🍁'], originX, originY),
+    sunset: () => createFireEffect('🌅', originX, originY)
+  };
+  
+  const effect = particleThemes[themeBase];
+  if (effect) {
+    effect();
+  }
+  // Note: No default particles for minimal/plain themes like default, minimalist, etc.
+}
+
+function getOrCreateParticleContainer() {
+  let container = document.querySelector('.particle-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'particle-container';
+    document.body.appendChild(container);
+  }
+  return container;
+}
+
+function createCodeRain(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const codeChars = ['0', '1', '{', '}', '<', '>', '/', '*', '+', '-', '=', ';'];
+  
+  for (let i = 0; i < 20; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-code';
+      particle.textContent = codeChars[Math.floor(Math.random() * codeChars.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables (more horizontal spread for code)
+      const dx = (Math.random() - 0.5) * 150;
+      const dy = Math.random() * 100 + 50; // Mostly downward
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.3 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 2800);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 60);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createFireEffect(emoji, originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const fireEmojis = [emoji, '🔥', '💥', '✨'];
+  
+  for (let i = 0; i < 12; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-fire-burst';
+      particle.textContent = fireEmojis[Math.floor(Math.random() * fireEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables (burst pattern)
+      const angle = (Math.PI * 2 * i) / 12 + (Math.random() - 0.5) * 0.5;
+      const distance = 80 + Math.random() * 60;
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.2 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 2000);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 80);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createNatureEffect(emojis, originX, originY) {
+  const container = getOrCreateParticleContainer();
+  
+  for (let i = 0; i < 10; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-float';
+      particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables (gentle spread)
+      const dx = (Math.random() - 0.5) * 120;
+      const dy = (Math.random() - 0.5) * 120;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.6 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 3000);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 120);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createSpaceEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const spaceEmojis = ['⭐', '✨', '🌟', '💫', '🌌'];
+  
+  for (let i = 0; i < 15; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-firework';
+      particle.textContent = spaceEmojis[Math.floor(Math.random() * spaceEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables (circular burst like firework)
+      const angle = (Math.PI * 2 * i) / 15 + (Math.random() - 0.5) * 0.3;
+      const distance = 100 + Math.random() * 80;
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.5 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 2500);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 100);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createMagicEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const magicEmojis = ['✨', '🔮', '💜', '🌙', '⚡'];
+  
+  for (let i = 0; i < 12; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-firework';
+      particle.textContent = magicEmojis[Math.floor(Math.random() * magicEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables (magical swirl pattern)
+      const angle = (Math.PI * 2 * i) / 12 + (Math.random() - 0.5) * 0.4;
+      const distance = 70 + Math.random() * 70;
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.4 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 2500);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 110);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createAngelEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const angelEmojis = ['👼', '✨', '🤍', '💛', '🌟'];
+  
+  for (let i = 0; i < 14; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-float';
+      particle.textContent = angelEmojis[Math.floor(Math.random() * angelEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables
+      const dx = (Math.random() - 0.5) * 160;
+      const dy = (Math.random() - 0.5) * 160;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.8 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 3000);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 140);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createHolographicEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const holoEmojis = ['💎', '🌈', '✨', '💠', '🔆'];
+  
+  for (let i = 0; i < 18; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-shimmer';
+      particle.textContent = holoEmojis[Math.floor(Math.random() * holoEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables
+      const dx = (Math.random() - 0.5) * 200;
+      const dy = (Math.random() - 0.5) * 200;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.5 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 3000);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 110);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createNeonEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const neonEmojis = ['💖', '💜', '💙', '⚡', '✨'];
+  
+  for (let i = 0; i < 16; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-neon-glow';
+      particle.textContent = neonEmojis[Math.floor(Math.random() * neonEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables
+      const dx = (Math.random() - 0.5) * 180;
+      const dy = (Math.random() - 0.5) * 180;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.4 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 2500);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 120);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createCyberpunkEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const cyberEmojis = ['🤖', '💻', '⚡', '🔮', '💜'];
+  
+  for (let i = 0; i < 14; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-neon-glow';
+      particle.textContent = cyberEmojis[Math.floor(Math.random() * cyberEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables
+      const dx = (Math.random() - 0.5) * 170;
+      const dy = (Math.random() - 0.5) * 170;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.6 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 3000);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 140);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createSynthwaveEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const synthEmojis = ['🌆', '🚗', '💜', '💖', '✨'];
+  
+  for (let i = 0; i < 12; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-neon-glow';
+      particle.textContent = synthEmojis[Math.floor(Math.random() * synthEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables
+      const dx = (Math.random() - 0.5) * 190;
+      const dy = (Math.random() - 0.5) * 190;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.8 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 3000);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 160);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createVaporwaveEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const vaporEmojis = ['🌴', '💜', '💖', '🌅', '✨'];
+  
+  for (let i = 0; i < 14; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-float';
+      particle.textContent = vaporEmojis[Math.floor(Math.random() * vaporEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables
+      const dx = (Math.random() - 0.5) * 180;
+      const dy = (Math.random() - 0.5) * 180;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.7 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 3000);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 150);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+function createCrystalEffect(originX, originY) {
+  const container = getOrCreateParticleContainer();
+  const crystalEmojis = ['💎', '✨', '💠', '🔷', '�'];
+  
+  for (let i = 0; i < 16; i++) {
+    const timeout = setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'particle particle-shimmer';
+      particle.textContent = crystalEmojis[Math.floor(Math.random() * crystalEmojis.length)];
+      
+      // Fixed position from button
+      particle.style.left = originX + 'px';
+      particle.style.top = originY + 'px';
+      
+      // Set random direction variables
+      const dx = (Math.random() - 0.5) * 160;
+      const dy = (Math.random() - 0.5) * 160;
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      
+      particle.style.animationDelay = Math.random() * 0.5 + 's';
+      container.appendChild(particle);
+      
+      const removeTimeout = setTimeout(() => particle.remove(), 2800);
+      window.particleTimeouts.push(removeTimeout);
+    }, i * 120);
+    window.particleTimeouts.push(timeout);
+  }
+}
+
+// Initialize theme on load
+const savedTheme = localStorage.getItem('theme') || 'dark';
+const [themeBase, themeMode] = savedTheme.includes('-') ? savedTheme.split('-') : [savedTheme, 'day'];
+currentMode = themeMode;
+
+loadFontPreferences();
+applyTheme(savedTheme);
+
+// Attach toggle handler
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', toggleTheme);
+}
+
+// Attach font customization handler
+if (fontSelect) {
+  fontSelect.addEventListener('change', applyFontSettings);
+}
+
+// Attach handlers for explicit theme options
+themeOptions.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theme = btn.getAttribute('data-theme');
+    applyTheme(theme, btn);
+  });
+});
+
+// Attach handlers for theme preview elements
+themePreviews.forEach(preview => {
+  preview.addEventListener('click', () => {
+    const theme = preview.getAttribute('data-theme');
+    applyTheme(theme, preview);
+  });
+});

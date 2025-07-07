@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PathGuard - Advanced Tower Defense</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="../../css/style.css">
+  <!-- Game CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Prevent flash of unstyled content -->
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg sticky-top" id="mainNavbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand logo" href="../../index.html">
+        <i class="fas fa-route me-2"></i>PathGuard
+      </a>
+      <div class="d-flex align-items-center">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../themes.html">Themes</a></li>
+        </ul>
+        <button id="themeToggle" class="btn btn-outline-secondary me-3" aria-label="Toggle Light/Dark">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Game Content -->
+  <main class="container-fluid game-container">
+    <div class="row h-100">
+      <!-- Game Info Panel -->
+      <div class="col-lg-3 info-panel">
+        <div class="info-container">
+          <!-- Game Status -->
+          <div class="game-status mb-3">
+            <h4><i class="fas fa-info-circle me-2"></i>Game Status</h4>
+            <div class="status-grid">
+              <div class="status-item">
+                <span class="status-label">Wave:</span>
+                <span id="waveDisplay" class="status-value">1</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Lives:</span>
+                <span id="livesDisplay" class="status-value">10</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Gold:</span>
+                <span id="goldDisplay" class="status-value">50</span>
+              </div>
+              <div class="status-item">
+                <span class="status-label">Score:</span>
+                <span id="scoreDisplay" class="status-value">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tower Selection -->
+          <div class="tower-selection mb-3">
+            <h4><i class="fas fa-chess-rook me-2"></i>Towers</h4>
+            <div class="tower-grid">
+              <div class="tower-option" data-tower="sniper">
+                <div class="tower-icon">
+                  <i class="fas fa-crosshairs"></i>
+                </div>
+                <div class="tower-info">
+                  <div class="tower-name">Sniper</div>
+                  <div class="tower-cost">$15</div>
+                </div>
+              </div>
+              <div class="tower-option" data-tower="machine">
+                <div class="tower-icon">
+                  <i class="fas fa-cog"></i>
+                </div>
+                <div class="tower-info">
+                  <div class="tower-name">Machine Gun</div>
+                  <div class="tower-cost">$30</div>
+                </div>
+              </div>
+              <div class="tower-option" data-tower="explosive">
+                <div class="tower-icon">
+                  <i class="fas fa-bomb"></i>
+                </div>
+                <div class="tower-info">
+                  <div class="tower-name">Explosive</div>
+                  <div class="tower-cost">$50</div>
+                </div>
+              </div>
+              <div class="tower-option" data-tower="freeze">
+                <div class="tower-icon">
+                  <i class="fas fa-snowflake"></i>
+                </div>
+                <div class="tower-info">
+                  <div class="tower-name">Freeze</div>
+                  <div class="tower-cost">$40</div>
+                </div>
+              </div>
+              <div class="tower-option" data-tower="poison">
+                <div class="tower-icon">
+                  <i class="fas fa-skull-crossbones"></i>
+                </div>
+                <div class="tower-info">
+                  <div class="tower-name">Poison</div>
+                  <div class="tower-cost">$35</div>
+                </div>
+              </div>
+              <div class="tower-option" data-tower="electric">
+                <div class="tower-icon">
+                  <i class="fas fa-bolt"></i>
+                </div>
+                <div class="tower-info">
+                  <div class="tower-name">Electric</div>
+                  <div class="tower-cost">$45</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Path Building -->
+          <div class="path-building mb-3">
+            <h4><i class="fas fa-road me-2"></i>Path Tools</h4>
+            <div class="path-tools">
+              <button id="pathModeBtn" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-route me-1"></i>Build Path
+              </button>
+              <button id="trapModeBtn" class="btn btn-outline-warning btn-sm">
+                <i class="fas fa-fire me-1"></i>Place Trap
+              </button>
+              <button id="removeModeBtn" class="btn btn-outline-danger btn-sm">
+                <i class="fas fa-trash me-1"></i>Remove
+              </button>
+            </div>
+          </div>
+
+          <!-- Wave Info -->
+          <div class="wave-info mb-3">
+            <h4><i class="fas fa-wave-square me-2"></i>Next Wave</h4>
+            <div id="waveInfo" class="wave-details">
+              <div class="enemy-type">
+                <i class="fas fa-bug"></i>
+                <span>Basic Enemies x5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Game Controls -->
+          <div class="game-controls">
+            <button id="startWaveBtn" class="btn btn-success w-100 mb-2">
+              <i class="fas fa-play me-2"></i>Start Wave
+            </button>
+            <div class="speed-controls mb-2">
+              <button id="slowBtn" class="btn btn-outline-info btn-sm">
+                <i class="fas fa-backward me-1"></i>Slow
+              </button>
+              <button id="normalBtn" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-play me-1"></i>Normal
+              </button>
+              <button id="fastBtn" class="btn btn-outline-warning btn-sm">
+                <i class="fas fa-forward me-1"></i>Fast
+              </button>
+            </div>
+            <button id="pauseBtn" class="btn btn-warning w-100 mb-2">
+              <i class="fas fa-pause me-2"></i>Pause
+            </button>
+            <button id="resetBtn" class="btn btn-outline-secondary w-100">
+              <i class="fas fa-redo me-2"></i>Reset Game
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Canvas Area -->
+      <div class="col-lg-9 game-area">
+        <div class="game-header text-center mb-3">
+          <h1 class="display-4 fw-bold game-title">
+            <i class="fas fa-route text-primary me-2"></i>PathGuard
+          </h1>
+          <p class="lead">Build your path, place towers, and defend your base!</p>
+        </div>
+
+        <!-- Game Canvas -->
+        <div class="canvas-container">
+          <canvas id="gameCanvas" width="1000" height="700"></canvas>
+          <div id="gameOverlay" class="game-overlay">
+            <div class="overlay-content">
+              <h2>Build Your Defense!</h2>
+              <p>First, build a path from start to finish, then place towers to defend it!</p>
+              <button id="startBuildingBtn" class="btn btn-primary">
+                <i class="fas fa-hammer me-2"></i>Start Building
+              </button>
+            </div>
+          </div>
+          
+          <!-- Tower Info Panel -->
+          <div id="towerInfoPanel" class="tower-info-panel hidden">
+            <h5 id="towerInfoTitle">Tower Info</h5>
+            <div id="towerInfoContent"></div>
+            <div class="tower-actions">
+              <button id="upgradeTowerBtn" class="btn btn-primary btn-sm">
+                <i class="fas fa-arrow-up me-1"></i>Upgrade
+              </button>
+              <button id="sellTowerBtn" class="btn btn-outline-danger btn-sm">
+                <i class="fas fa-coins me-1"></i>Sell
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/theme.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

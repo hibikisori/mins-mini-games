@@ -1,0 +1,431 @@
+/* PathGuard - Advanced Tower Defense Game Styles */
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family, 'Inter', sans-serif);
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+/* Game Container */
+.game-container {
+  height: calc(100vh - 76px);
+  padding: 0;
+  overflow: hidden;
+}
+
+.game-area {
+  padding: 1rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Game Header */
+.game-header {
+  margin-bottom: 1rem;
+}
+
+.game-title {
+  color: var(--text);
+  font-size: 2.5rem;
+}
+
+.game-header .lead {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+/* Info Panel */
+.info-panel {
+  background: var(--alt);
+  padding: 1rem;
+  border-right: 2px solid var(--accent);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.info-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Game Status */
+.game-status h4,
+.tower-selection h4,
+.wave-info h4 {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.5rem;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.status-item {
+  background: var(--accent);
+  padding: 0.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.status-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  display: block;
+}
+
+.status-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* Tower Selection */
+.tower-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.tower-option {
+  background: var(--accent);
+  padding: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.tower-option:hover {
+  background: var(--primary);
+  color: var(--bg);
+  transform: translateY(-2px);
+}
+
+.tower-option.selected {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--bg);
+}
+
+.tower-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tower-option.disabled:hover {
+  transform: none;
+  background: var(--accent);
+  color: var(--text);
+}
+
+.tower-icon {
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.tower-name {
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-bottom: 0.1rem;
+}
+
+.tower-cost {
+  font-size: 0.6rem;
+  opacity: 0.8;
+}
+
+/* Path Building Tools */
+.path-building h4 {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.5rem;
+}
+
+.path-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.path-tools .btn {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+}
+
+/* Speed Controls */
+.speed-controls {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.speed-controls .btn {
+  flex: 1;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.5rem;
+}
+
+/* Wave Info */
+.wave-details {
+  background: var(--accent);
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+.enemy-type {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.enemy-type i {
+  color: var(--primary);
+}
+
+/* Game Controls */
+.game-controls {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.game-controls .btn {
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+}
+
+/* Canvas Container */
+.canvas-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 120px);
+  background: var(--accent);
+  border-radius: 12px;
+  border: 2px solid var(--primary);
+  overflow: hidden;
+}
+
+#gameCanvas {
+  background: var(--bg);
+  border-radius: 8px;
+  cursor: crosshair;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+#gameCanvas.path-mode {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>') 12 12, crosshair;
+}
+
+#gameCanvas.remove-mode {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>') 12 12, crosshair;
+}
+
+/* Tower Info Panel */
+.tower-info-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--alt);
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  padding: 1rem;
+  min-width: 250px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tower-info-panel.hidden {
+  display: none;
+}
+
+.tower-info-panel h5 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.3rem;
+}
+
+.tower-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.tower-actions .btn {
+  flex: 1;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.6rem;
+}
+
+/* Grid Overlay */
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Game Overlay */
+.game-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.game-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-content {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+.overlay-content h2 {
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.overlay-content p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Message Animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  20%,
+  80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .game-container {
+    height: auto;
+    min-height: calc(100vh - 76px);
+  }
+  
+  .info-panel {
+    height: auto;
+    border-right: none;
+    border-bottom: 2px solid var(--accent);
+  }
+  
+  .game-area {
+    height: 60vh;
+  }
+  
+  .tower-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .status-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2rem;
+  }
+  
+  .canvas-container {
+    height: 400px;
+  }
+  
+  #gameCanvas {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Animation Classes */
+.tower-placed {
+  animation: towerPlace 0.3s ease-out;
+}
+
+@keyframes towerPlace {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.enemy-hit {
+  animation: enemyHit 0.2s ease-out;
+}
+
+@keyframes enemyHit {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.explosion {
+  animation: explosion 0.5s ease-out;
+}
+
+@keyframes explosion {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

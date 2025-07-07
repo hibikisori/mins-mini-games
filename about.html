@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default-day">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About • Min</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Prevent flash of unstyled content -->
+  <script>
+    // Apply saved theme immediately to prevent flash
+    const savedTheme = localStorage.getItem('theme') || 'default-day';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <!-- Navbar: consistent across all pages -->
+  <nav class="navbar navbar-expand-lg sticky-top" id="mainNavbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand logo" href="index.html">Min</a>
+      <div class="d-flex align-items-center">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link no-particles" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link no-particles" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link no-particles" href="themes.html">Themes</a></li>
+        </ul>
+        <button id="themeToggle" class="btn btn-outline-secondary me-3 no-particles" aria-label="Toggle Day/Night">🌙</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- About Hero Section -->
+  <section class="py-5 bg-accent text-center position-relative" data-aos="fade-up">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-3">About Min</h1>
+      <p class="lead mb-0">A beginner programmer's journey into game development</p>
+    </div>
+    <div class="position-absolute bottom-0 start-0 w-100" style="height: 3px; background: linear-gradient(90deg, var(--primary), transparent, var(--primary));"></div>
+  </section>
+
+  <!-- About Content -->
+  <main class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <!-- Introduction -->
+          <div class="mb-5" data-aos="fade-up" data-aos-delay="100">
+            <h2 class="h3 mb-4">Welcome to My Portfolio</h2>
+            <p class="lead mb-4">
+              Hi! I'm Min, and this is my journey as a beginner programmer exploring the exciting world of game development. 
+              This website serves as my portfolio where I showcase small browser games I've built while learning different programming languages and concepts.
+            </p>
+            <p>
+              Every game here represents a learning milestone, a new challenge conquered, or a creative idea brought to life. 
+              As someone just starting out in programming, I believe in learning by doing, and what better way to learn than by creating fun, interactive experiences?
+            </p>
+          </div>
+
+          <!-- My Journey -->
+          <div class="mb-5" data-aos="fade-up" data-aos-delay="200">
+            <h2 class="h3 mb-4">My Programming Journey</h2>
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">🎮 Game Development</h5>
+                    <p class="card-text">
+                      Starting with simple browser games using HTML, CSS, and JavaScript. 
+                      Each game teaches me new concepts like event handling, animations, and user interaction.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">🌐 Web Technologies</h5>
+                    <p class="card-text">
+                      Learning modern web development with responsive design, CSS frameworks like Bootstrap, 
+                      and creating beautiful user interfaces with smooth animations.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">🐍 Python & More</h5>
+                    <p class="card-text">
+                      Exploring different programming languages including Python for various projects, 
+                      always eager to learn new tools and expand my programming toolkit.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">💡 Creative Problem Solving</h5>
+                    <p class="card-text">
+                      Every bug is a puzzle to solve, every feature is a new challenge. 
+                      I'm passionate about turning ideas into working, enjoyable experiences.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Goals & Vision -->
+          <div class="mb-5" data-aos="fade-up" data-aos-delay="300">
+            <h2 class="h3 mb-4">Goals & Vision</h2>
+            <div class="bg-alt p-4 rounded">
+              <p class="mb-3">
+                <strong>Short-term:</strong> Build a collection of increasingly complex browser games, 
+                each demonstrating new skills and concepts I've learned.
+              </p>
+              <p class="mb-3">
+                <strong>Long-term:</strong> Develop more sophisticated games using different engines and frameworks, 
+                and eventually create experiences that others can enjoy and learn from.
+              </p>
+              <p class="mb-0">
+                <strong>Always:</strong> Document my learning process, share knowledge with fellow beginners, 
+                and prove that anyone can start their programming journey at any time.
+              </p>
+            </div>
+          </div>
+
+          <!-- Tech Stack -->
+          <div class="mb-5" data-aos="fade-up" data-aos-delay="400">
+            <h2 class="h3 mb-4">Technologies I'm Learning</h2>
+            <div class="row g-3">
+              <div class="col-auto">
+                <span class="badge bg-primary fs-6 py-2 px-3">HTML5</span>
+              </div>
+              <div class="col-auto">
+                <span class="badge bg-primary fs-6 py-2 px-3">CSS3</span>
+              </div>
+              <div class="col-auto">
+                <span class="badge bg-primary fs-6 py-2 px-3">JavaScript</span>
+              </div>
+              <div class="col-auto">
+                <span class="badge bg-primary fs-6 py-2 px-3">Python</span>
+              </div>
+              <div class="col-auto">
+                <span class="badge bg-primary fs-6 py-2 px-3">Bootstrap</span>
+              </div>
+              <div class="col-auto">
+                <span class="badge bg-primary fs-6 py-2 px-3">Git & GitHub</span>
+              </div>
+              <div class="col-auto">
+                <span class="badge bg-primary fs-6 py-2 px-3">VS Code</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Call to Action -->
+          <div class="text-center" data-aos="fade-up" data-aos-delay="500">
+            <h2 class="h3 mb-4">Let's Connect!</h2>
+            <p class="mb-4">
+              I'm always excited to connect with fellow beginners, experienced developers, 
+              and anyone interested in game development. Let's learn together!
+            </p>
+            <a href="index.html" class="btn btn-primary btn-lg me-3">Check Out My Games</a>
+            <a href="themes.html" class="btn btn-outline-secondary btn-lg">Try Different Themes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center bg-accent" data-aos="fade-up" data-aos-delay="300">
+    <div class="container">
+      <small>© 2025 Min</small>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // About page never gets navigation animation - keep it static
+    AOS.init({ once: true, duration: 600, easing: 'ease-out' });
+  </script>
+  <script src="js/theme.js"></script>
+</body>
+</html>

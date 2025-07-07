@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default-day">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Select Theme • Min</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Prevent flash of unstyled content -->
+  <script>
+    // Apply saved theme immediately to prevent flash
+    const savedTheme = localStorage.getItem('theme') || 'default-day';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top" id="mainNavbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand logo" href="index.html">Min</a>
+      <div class="d-flex align-items-center">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link no-particles" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link no-particles" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link no-particles" href="themes.html">Themes</a></li>
+        </ul>
+        <button id="themeToggle" class="btn btn-outline-secondary me-3 no-particles" aria-label="Toggle Day/Night">🌙</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Theme Selection -->
+  <main>
+    <!-- Theme Selection Header -->
+    <div class="theme-header">
+      <div class="container text-center">
+        <!-- Current Theme Display -->
+        <div class="current-theme-display mb-4" id="currentThemeDisplay">
+          Currently using: Default Theme
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center mb-0">
+          <h2 class="mb-0">Themes</h2>
+          <!-- Beautiful Settings Button -->
+          <button class="settings-btn" type="button" data-bs-toggle="collapse" data-bs-target="#customizationMenu" aria-expanded="false" aria-controls="customizationMenu">
+            <div class="settings-icon">
+              <div class="gear">⚙️</div>
+            </div>
+            <span class="settings-text">Customize</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container text-center">
+      <!-- Collapsible Customization Menu -->
+      <div class="collapse mb-4" id="customizationMenu">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-11 col-lg-9">
+            <div class="card bg-alt border-0 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-4">🎨 Customization Options</h5>
+                <div class="row g-3 justify-content-center">
+                  <!-- Particle Effects Toggle -->
+                  <div class="col-12 col-md-6">
+                    <div class="settings-section">
+                      <div class="visual-effects-toggle active" id="particleToggle">
+                        <div class="toggle-content">
+                          <h6 class="mb-3">✨ Visual Effects</h6>
+                          <strong>Enable Particle Effects</strong>
+                          <small class="d-block text-muted mt-2">Show magical particles when switching themes! ✨</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Simplified Font Selector -->
+                  <div class="col-12 col-md-6">
+                    <div class="settings-section">
+                      <h6 class="mb-3">🔤 Typography</h6>
+                      <label for="fontSelect" class="form-label"><strong>Choose Your Font</strong></label>
+                      <select class="form-select" id="fontSelect">
+                        <option value="theme-default">✨ Use theme font (recommended)</option>
+                        <option value="Inter">📝 Inter - Clean & modern</option>
+                        <option value="Orbitron">🚀 Orbitron - Sci-fi futuristic</option>
+                        <option value="Creepster">👻 Creepster - Spooky horror</option>
+                        <option value="Nosifer">😈 Nosifer - Dark horror</option>
+                        <option value="Cinzel">👑 Cinzel - Royal elegant</option>
+                        <option value="Righteous">📻 Righteous - Retro wave</option>
+                        <option value="Silkscreen">🎮 Silkscreen - Pixel gaming</option>
+                        <option value="Fredoka One">🎨 Fredoka One - Fun playful</option>
+                        <option value="Monoton">🌈 Monoton - Stylized retro</option>
+                        <option value="Courier New">💻 Courier New - Code mono</option>
+                        <option value="Consolas">⌨️ Consolas - Terminal mono</option>
+                      </select>
+                      <small class="form-text text-muted mt-2">Each theme has its own special font! Override here if you prefer something different 🎭</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Classic & Essential Themes -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Classic & Essential</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Default Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="default-day">
+              <p class="theme-name">Default</p>
+            </div>
+          </div>
+          <!-- Minimalist Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="minimalist-day">
+              <p class="theme-name">Minimalist</p>
+            </div>
+          </div>
+          <!-- Noir Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="noir-day">
+              <p class="theme-name">Noir</p>
+            </div>
+          </div>
+          <!-- Slate Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="slate-day">
+              <p class="theme-name">Slate</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nature & Elements -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Nature & Elements</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Ocean Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="ocean-day">
+              <p class="theme-name">Ocean</p>
+            </div>
+          </div>
+          <!-- Forest Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="forest-day">
+              <p class="theme-name">Forest</p>
+            </div>
+          </div>
+          <!-- Sunset Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="sunset-day">
+              <p class="theme-name">Sunset</p>
+            </div>
+          </div>
+          <!-- Arctic Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="arctic-day">
+              <p class="theme-name">Arctic</p>
+            </div>
+          </div>
+          <!-- Autumn Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="autumn-day">
+              <p class="theme-name">Autumn</p>
+            </div>
+          </div>
+          <!-- Volcano Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="volcano-day">
+              <p class="theme-name">Volcano</p>
+            </div>
+          </div>
+          <!-- Crystal Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="crystal-day">
+              <p class="theme-name">Crystal</p>
+            </div>
+          </div>
+          <!-- Mint Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="mint-day">
+              <p class="theme-name">Mint</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colors & Gems -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Colors & Gems</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Emerald Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="emerald-day">
+              <p class="theme-name">Emerald</p>
+            </div>
+          </div>
+          <!-- Royal Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="royal-day">
+              <p class="theme-name">Royal</p>
+            </div>
+          </div>
+          <!-- Golden Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="golden-day">
+              <p class="theme-name">Golden</p>
+            </div>
+          </div>
+          <!-- Cherry Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="cherry-day">
+              <p class="theme-name">Cherry</p>
+            </div>
+          </div>
+          <!-- Rose Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="rose-day">
+              <p class="theme-name">Rose</p>
+            </div>
+          </div>
+          <!-- Lavender Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="lavender-day">
+              <p class="theme-name">Lavender</p>
+            </div>
+          </div>
+          <!-- Grape Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="grape-day">
+              <p class="theme-name">Grape</p>
+            </div>
+          </div>
+          <!-- Steel Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="steel-day">
+              <p class="theme-name">Steel</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark & Mysterious -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Dark & Mysterious</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Noir Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="noir-day">
+              <p class="theme-name">Noir</p>
+            </div>
+          </div>
+          <!-- Shadow Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="shadow-day">
+              <p class="theme-name">Shadow</p>
+            </div>
+          </div>
+          <!-- Witch Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="witch-day">
+              <p class="theme-name">Witch</p>
+            </div>
+          </div>
+          <!-- Demon Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="demon-day">
+              <p class="theme-name">Demon</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Retro & Nostalgic -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Retro & Nostalgic</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Retro Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="retro-day">
+              <p class="theme-name">Retro</p>
+            </div>
+          </div>
+          <!-- Synthwave Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="synthwave-day">
+              <p class="theme-name">Synthwave</p>
+            </div>
+          </div>
+          <!-- Vaporwave Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="vaporwave-day">
+              <p class="theme-name">Vaporwave</p>
+            </div>
+          </div>
+          <!-- Miami Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="miami-day">
+              <p class="theme-name">Miami</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neon & Futuristic -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Neon & Futuristic</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Neon Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="neon-day">
+              <p class="theme-name">Neon</p>
+            </div>
+          </div>
+          <!-- Neon Pink Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="neonpink-day">
+              <p class="theme-name">Neon Pink</p>
+            </div>
+          </div>
+          <!-- Cyberpunk Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="cyberpunk-day">
+              <p class="theme-name">Cyberpunk</p>
+            </div>
+          </div>
+          <!-- Holographic Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="holographic-day">
+              <p class="theme-name">Holographic</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech & Development -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Tech & Development</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Matrix Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="matrix-day">
+              <p class="theme-name">Matrix</p>
+            </div>
+          </div>
+          <!-- Terminal Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="terminal-day">
+              <p class="theme-name">Terminal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cosmic & Mystical -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Cosmic & Mystical</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Cosmic Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="cosmic-day">
+              <p class="theme-name">Cosmic</p>
+            </div>
+          </div>
+          <!-- Galaxy Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="galaxy-day">
+              <p class="theme-name">Galaxy</p>
+            </div>
+          </div>
+          <!-- Mystic Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="mystic-day">
+              <p class="theme-name">Mystic</p>
+            </div>
+          </div>
+          <!-- Dragon Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="dragon-day">
+              <p class="theme-name">Dragon</p>
+            </div>
+          </div>
+          <!-- Phoenix Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="phoenix-day">
+              <p class="theme-name">Phoenix</p>
+            </div>
+          </div>
+          <!-- Crystal Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="crystal-day">
+              <p class="theme-name">Crystal</p>
+            </div>
+          </div>
+          <!-- Angel Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="angel-day">
+              <p class="theme-name">Angel</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soft & Pastel -->
+      <div class="mb-5">
+        <h3 class="mb-4 text-muted">Soft & Pastel</h3>
+        <div class="row g-4 justify-content-center">
+          <!-- Pastel Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="pastel-day">
+              <p class="theme-name">Pastel</p>
+            </div>
+          </div>
+          <!-- Coffee Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="coffee-day">
+              <p class="theme-name">Coffee</p>
+            </div>
+          </div>
+          <!-- Sunset Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="sunset-day">
+              <p class="theme-name">Sunset</p>
+            </div>
+          </div>
+          <!-- Autumn Theme -->
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="theme-preview" data-theme="autumn-day">
+              <p class="theme-name">Autumn</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center bg-accent">
+    <div class="container">
+      <small>© 2025 Min</small>
+    </div>
+  </footer>
+
+  <!-- JS Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Themes page never gets navigation animation - keep it static
+    AOS.init({ once: true, duration: 600, easing: 'ease-out' });
+  </script>
+  <script src="js/theme.js"></script>
+</body>
+</html>
