@@ -10,6 +10,12 @@ class PathGuardGame {
     this.placementMode = false;
     this.gameSpeed = 1;
     
+    // Path building mode
+    this.pathBuildingMode = false;
+    this.isDrawingPath = false;
+    this.tempPath = [];
+    this.minPathDistance = 30; // Minimum distance between path points
+    
     // Mobile detection
     this.isMobile = window.innerWidth <= 768;
     this.isTouch = 'ontouchstart' in window;
@@ -194,7 +200,9 @@ class PathGuardGame {
       const x = (clientX - rect.left) * scaleX;
       const y = (clientY - rect.top) * scaleY;
       
-      if (this.selectedTower && this.placementMode) {
+      if (this.pathBuildingMode) {
+        this.addPathPoint(x, y);
+      } else if (this.selectedTower && this.placementMode) {
         this.placeTower(x, y);
       } else {
         // Check if clicking on an existing tower
@@ -277,9 +285,13 @@ class PathGuardGame {
     
     // Enhanced keyboard controls
     document.addEventListener('keydown', (e) => {
-      // Cancel placement with Escape
-      if (e.key === 'Escape' && this.placementMode) {
-        this.cancelPlacement();
+      // Cancel placement or path building with Escape
+      if (e.key === 'Escape') {
+        if (this.placementMode) {
+          this.cancelPlacement();
+        } else if (this.pathBuildingMode) {
+          this.togglePathBuildingMode();
+        }
         return;
       }
       
@@ -328,6 +340,14 @@ class PathGuardGame {
         return;
       }
     });
+    
+    // Path building controls
+    const pathModeBtn = document.getElementById('pathModeBtn');
+    if (pathModeBtn) {
+      pathModeBtn.addEventListener('click', () => {
+        this.togglePathBuildingMode();
+      });
+    }
     
     // Window resize
     window.addEventListener('resize', () => {
@@ -601,6 +621,179 @@ class PathGuardGame {
         option.classList.remove('disabled');
       }
     });
+  }
+  
+  // Path Building Methods
+  togglePathBuildingMode() {
+    // Don't allow path building during an active game
+    if (this.gameRunning) {
+      this.showMessage('Cannot modify path during active game!', '#F44336');
+      return;
+    }
+    
+    this.pathBuildingMode = !this.pathBuildingMode;
+    
+    if (this.pathBuildingMode) {
+      // Enable path building mode
+      this.cancelPlacement();
+      this.tempPath = [];
+      this.isDrawingPath = false;
+      this.canvas.style.cursor = 'crosshair';
+      
+      // Update button state
+      document.getElementById('pathModeBtn').classList.add('active');
+      document.getElementById('pathModeBtn').innerHTML = '<i class="fas fa-check me-1"></i>Finish Path';
+      
+      this.showMessage('Click to build your path! Start near the left edge and end near the right edge.', '#2196F3');
+    } else {
+      // Exit path building mode
+      if (this.tempPath.length >= 2) {
+        this.applyNewPath();
+      }
+      this.canvas.style.cursor = 'default';
+      
+      // Update button state
+      document.getElementById('pathModeBtn').classList.remove('active');
+      document.getElementById('pathModeBtn').innerHTML = '<i class="fas fa-route me-1"></i>Build Path';
+      
+      this.pathBuildingMode = false;
+      this.tempPath = [];
+    }
+  }
+  
+  addPathPoint(x, y) {
+    if (!this.pathBuildingMode) return;
+    
+    // Check if we should add this point
+    if (this.tempPath.length === 0) {
+      // First point
+      this.tempPath.push({ x, y });
+      this.showMessage('Great! Keep clicking to extend your path.', '#4CAF50');
+    } else {
+      // Check distance from last point
+      const lastPoint = this.tempPath[this.tempPath.length - 1];
+      const distance = Math.sqrt((x - lastPoint.x) ** 2 + (y - lastPoint.y) ** 2);
+      
+      if (distance >= this.minPathDistance) {
+        this.tempPath.push({ x, y });
+        
+        // Provide feedback based on path length
+        if (this.tempPath.length >= 2 && this.tempPath.length < 5) {
+          this.showMessage(`Path has ${this.tempPath.length} points. Continue or finish!`, '#FF9800');
+        } else if (this.tempPath.length >= 5) {
+          this.showMessage('Nice path! You can finish building now.', '#4CAF50');
+        }
+      }
+    }
+  }
+  
+  applyNewPath() {
+    if (this.tempPath.length >= 2) {
+      // Validate path (should go roughly from left to right)
+      const startX = this.tempPath[0].x;
+      const endX = this.tempPath[this.tempPath.length - 1].x;
+      
+      if (endX > startX + 100) { // Path should progress from left to right
+        this.path = [...this.tempPath];
+        this.showMessage('New path applied! Start your first wave!', '#4CAF50');
+      } else {
+        this.showMessage('Path should go from left to right! Try again.', '#F44336');
+        return false;
+      }
+    } else {
+      this.showMessage('Path needs at least 2 points!', '#F44336');
+      return false;
+    }
+    return true;
+  }
+  
+  drawPathBuilding() {
+    if (!this.pathBuildingMode) return;
+    
+    const ctx = this.ctx;
+    
+    // Draw temporary path
+    if (this.tempPath.length > 0) {
+      ctx.save();
+      ctx.strokeStyle = '#2196F3';
+      ctx.lineWidth = 6;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.setLineDash([10, 5]); // Dashed line to indicate it's temporary
+      
+      ctx.beginPath();
+      ctx.moveTo(this.tempPath[0].x, this.tempPath[0].y);
+      for (let i = 1; i < this.tempPath.length; i++) {
+        ctx.lineTo(this.tempPath[i].x, this.tempPath[i].y);
+      }
+      ctx.stroke();
+      
+      // Draw path points
+      this.tempPath.forEach((point, index) => {
+        ctx.fillStyle = index === 0 ? '#4CAF50' : index === this.tempPath.length - 1 ? '#F44336' : '#2196F3';
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, this.isMobile ? 12 : 8, 0, Math.PI * 2); // Larger touch targets on mobile
+        ctx.fill();
+        
+        // Add labels
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = this.isMobile ? 'bold 10px Arial' : 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        if (index === 0) {
+          ctx.fillText('START', point.x, point.y - (this.isMobile ? 18 : 15));
+        } else if (index === this.tempPath.length - 1) {
+          ctx.fillText('END', point.x, point.y - (this.isMobile ? 18 : 15));
+        }
+      });
+      
+      ctx.restore();
+    }
+    
+    // Draw helpful guides
+    ctx.save();
+    ctx.strokeStyle = 'rgba(76, 175, 80, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    
+    // Start area guide (adjusted for mobile)
+    const guideWidth = this.isMobile ? 60 : 80;
+    const guideMargin = this.isMobile ? 5 : 10;
+    
+    ctx.strokeRect(guideMargin, 50, guideWidth, this.canvas.height - 100);
+    ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+    ctx.fillRect(guideMargin, 50, guideWidth, this.canvas.height - 100);
+    
+    // End area guide  
+    ctx.strokeStyle = 'rgba(244, 67, 54, 0.3)';
+    ctx.fillStyle = 'rgba(244, 67, 54, 0.1)';
+    const endX = this.canvas.width - guideWidth - guideMargin;
+    ctx.strokeRect(endX, 50, guideWidth, this.canvas.height - 100);
+    ctx.fillRect(endX, 50, guideWidth, this.canvas.height - 100);
+    
+    // Labels (smaller on mobile)
+    ctx.fillStyle = '#4CAF50';
+    ctx.font = this.isMobile ? 'bold 10px Arial' : 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('START', guideMargin + guideWidth/2, this.canvas.height / 2);
+    ctx.fillText('AREA', guideMargin + guideWidth/2, this.canvas.height / 2 + (this.isMobile ? 12 : 16));
+    
+    ctx.fillStyle = '#F44336';
+    ctx.fillText('END', endX + guideWidth/2, this.canvas.height / 2);
+    ctx.fillText('AREA', endX + guideWidth/2, this.canvas.height / 2 + (this.isMobile ? 12 : 16));
+    
+    // Mobile instructions overlay
+    if (this.isMobile && this.tempPath.length === 0) {
+      ctx.fillStyle = 'rgba(33, 150, 243, 0.9)';
+      ctx.fillRect(20, 20, this.canvas.width - 40, 60);
+      
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 12px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('TAP TO BUILD PATH', this.canvas.width / 2, 40);
+      ctx.fillText('Start in green area, end in red area', this.canvas.width / 2, 55);
+    }
+    
+    ctx.restore();
   }
   
   gameLoop() {
@@ -994,6 +1187,9 @@ class PathGuardGame {
     if (this.placementMode && this.selectedTower) {
       this.drawPlacementPreview();
     }
+    
+    // Draw path building
+    this.drawPathBuilding();
   }
   
   drawPath() {

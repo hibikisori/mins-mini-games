@@ -171,6 +171,45 @@ body {
   padding: 0.4rem 0.8rem;
 }
 
+.path-tools .btn.active {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--bg) !important;
+}
+
+/* Mobile optimizations for path building */
+@media (max-width: 768px) {
+  .path-tools {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.3rem;
+  }
+  
+  .path-tools .btn {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.3rem;
+    flex: 1;
+  }
+  
+  .path-tools .btn.active {
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+  }
+  
+  /* Touch-friendly controls */
+  .controls-help {
+    display: none; /* Hide keyboard controls on mobile */
+  }
+  
+  .tower-option {
+    padding: 0.8rem 0.4rem;
+    font-size: 0.75rem;
+  }
+  
+  .tower-hotkey {
+    display: none; /* Hide hotkey indicators on mobile */
+  }
+}
+
 /* Speed Controls */
 .speed-controls {
   display: flex;
