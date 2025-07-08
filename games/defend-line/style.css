@@ -180,15 +180,15 @@ body {
 /* Mobile optimizations for path building */
 @media (max-width: 768px) {
   .path-tools {
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.3rem;
   }
   
   .path-tools .btn {
-    font-size: 0.7rem;
-    padding: 0.5rem 0.3rem;
-    flex: 1;
+    font-size: 0.65rem;
+    padding: 0.4rem 0.2rem;
+    white-space: nowrap;
   }
   
   .path-tools .btn.active {

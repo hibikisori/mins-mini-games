@@ -8,12 +8,22 @@ A collection of interactive browser-based games built with HTML5, CSS3, and Java
 An advanced tower defense game where you build towers to defend against waves of enemies.
 
 **Features:**
+- **Custom Path Building**: Draw your own enemy path before starting the game
 - 6 different tower types (Sniper, Machine Gun, Explosive, Freeze, Poison, Electric)
+- **Trap System**: Place special traps directly on the enemy path
+- **Keyboard Controls**: Quick tower selection (1-7), speed controls, and more
 - Special tower effects (chain lightning, area damage, poison, slow)
 - Interactive tower placement with range preview
 - Multiple enemy types with varying stats
 - Speed controls and wave progression
 - Particle effects and visual feedback
+- **Mobile Optimized**: Touch-friendly controls and responsive design
+
+**Controls:**
+- Click "Build Path" to create custom enemy routes
+- Use keyboard hotkeys (1-7) for quick tower selection
+- Space/Enter to start waves, P to pause, Esc to cancel actions
+- Backspace to undo path points while building
 
 **Play:** [PathGuard](./games/defend-line/)
 

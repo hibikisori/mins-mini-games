@@ -15,6 +15,7 @@ class PathGuardGame {
     this.isDrawingPath = false;
     this.tempPath = [];
     this.minPathDistance = 30; // Minimum distance between path points
+    this.hasShownPathTutorial = false;
     
     // Mobile detection
     this.isMobile = window.innerWidth <= 768;
@@ -295,6 +296,13 @@ class PathGuardGame {
         return;
       }
       
+      // Undo path point during path building
+      if (this.pathBuildingMode && (e.key === 'Backspace' || (e.ctrlKey && e.key === 'z'))) {
+        e.preventDefault();
+        this.undoLastPathPoint();
+        return;
+      }
+      
       // Start wave or game with Enter/Space
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -346,6 +354,13 @@ class PathGuardGame {
     if (pathModeBtn) {
       pathModeBtn.addEventListener('click', () => {
         this.togglePathBuildingMode();
+      });
+    }
+    
+    const clearPathBtn = document.getElementById('clearPathBtn');
+    if (clearPathBtn) {
+      clearPathBtn.addEventListener('click', () => {
+        this.clearPath();
       });
     }
     
@@ -644,7 +659,13 @@ class PathGuardGame {
       document.getElementById('pathModeBtn').classList.add('active');
       document.getElementById('pathModeBtn').innerHTML = '<i class="fas fa-check me-1"></i>Finish Path';
       
-      this.showMessage('Click to build your path! Start near the left edge and end near the right edge.', '#2196F3');
+      // Show tutorial on first use
+      if (!this.hasShownPathTutorial) {
+        this.showPathTutorial();
+        this.hasShownPathTutorial = true;
+      } else {
+        this.showMessage('Click to build your path! Start near the left edge and end near the right edge.', '#2196F3');
+      }
     } else {
       // Exit path building mode
       if (this.tempPath.length >= 2) {
@@ -687,6 +708,17 @@ class PathGuardGame {
     }
   }
   
+  undoLastPathPoint() {
+    if (!this.pathBuildingMode || this.tempPath.length === 0) return;
+    
+    this.tempPath.pop();
+    if (this.tempPath.length === 0) {
+      this.showMessage('Path cleared. Click to start building again.', '#FF9800');
+    } else {
+      this.showMessage(`Removed last point. ${this.tempPath.length} points remaining.`, '#FF9800');
+    }
+  }
+  
   applyNewPath() {
     if (this.tempPath.length >= 2) {
       // Validate path (should go roughly from left to right)
@@ -705,6 +737,31 @@ class PathGuardGame {
       return false;
     }
     return true;
+  }
+  
+  clearPath() {
+    // Don't allow clearing path during an active game
+    if (this.gameRunning) {
+      this.showMessage('Cannot clear path during active game!', '#F44336');
+      return;
+    }
+    
+    // Reset to default path
+    this.path = [
+      { x: 50, y: 350 },
+      { x: 200, y: 350 },
+      { x: 200, y: 200 },
+      { x: 400, y: 200 },
+      { x: 400, y: 350 },
+      { x: 600, y: 350 },
+      { x: 600, y: 150 },
+      { x: 750, y: 150 }
+    ];
+    
+    // Clear temporary path if in building mode
+    this.tempPath = [];
+    
+    this.showMessage('Path reset to default!', '#FF9800');
   }
   
   drawPathBuilding() {
@@ -734,6 +791,18 @@ class PathGuardGame {
         ctx.beginPath();
         ctx.arc(point.x, point.y, this.isMobile ? 12 : 8, 0, Math.PI * 2); // Larger touch targets on mobile
         ctx.fill();
+        
+        // Show minimum distance circle around the last point
+        if (index === this.tempPath.length - 1 && this.mouseX && this.mouseY) {
+          const distance = Math.sqrt((this.mouseX - point.x) ** 2 + (this.mouseY - point.y) ** 2);
+          ctx.strokeStyle = distance >= this.minPathDistance ? 'rgba(76, 175, 80, 0.5)' : 'rgba(244, 67, 54, 0.5)';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([5, 5]);
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, this.minPathDistance, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
         
         // Add labels
         ctx.fillStyle = '#FFFFFF';
@@ -1509,6 +1578,31 @@ class PathGuardGame {
   
   deselectTower() {
     this.selectedExistingTower = null;
+  }
+  
+  showPathTutorial() {
+    const tutorialMessages = [
+      'Welcome to Path Building! 🛤️',
+      'Click points to create your enemy path',
+      'Start in the GREEN area (left side)',
+      'End in the RED area (right side)',
+      'Points must be at least 30 pixels apart',
+      'Use Backspace to undo last point',
+      'Click "Finish Path" when done',
+      'Ready to build your first path?'
+    ];
+    
+    let currentMessage = 0;
+    
+    const showNextMessage = () => {
+      if (currentMessage < tutorialMessages.length) {
+        this.showMessage(tutorialMessages[currentMessage], '#2196F3');
+        currentMessage++;
+        setTimeout(showNextMessage, 2500);
+      }
+    };
+    
+    showNextMessage();
   }
 }
 
