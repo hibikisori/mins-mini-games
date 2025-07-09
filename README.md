@@ -30,6 +30,15 @@ An advanced tower defense game where you build towers to defend against waves of
 ### 🧠 Memory Link
 A memory challenge game where you repeat sequences of patterns.
 
+**Features:**
+- **Sound Effects**: Immersive audio feedback for all game actions
+- Multiple difficulty levels (2x2, 3x3, 4x4 grids)
+- Risk/reward system with score multipliers
+- Performance tracking and statistics
+- Popup distractions for added challenge
+- **Audio Controls**: Volume adjustment and sound toggle
+- Progressive difficulty with faster sequences
+
 **Play:** [Memory Link](./games/memory-link/)
 
 ### ⚡ Reaction Time
@@ -41,6 +50,7 @@ Test your reflexes with this fast-paced reaction time game.
 
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
 - **Multiple Themes**: Choose from 50+ beautiful themes including cyberpunk, neon, nature, and space themes
+- **Sound Effects**: Immersive audio experience with Web Audio API-generated sounds
 - **Interactive Home Page**: Browse games by category with filtering
 - **Modern UI**: Clean, modern interface with smooth animations
 - **Particle Effects**: Dynamic particle systems for enhanced visual experience

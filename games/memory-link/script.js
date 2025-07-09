@@ -17,6 +17,13 @@ class MemoryLinkGame {
     this.scoreDisplay = document.getElementById('scoreDisplay');
     this.popupContainer = document.getElementById('popupChatContainer');
     
+    // Sound control elements
+    this.soundToggle = document.getElementById('soundToggle');
+    this.volumeSlider = document.getElementById('volumeSlider');
+    this.volumeValue = document.getElementById('volumeValue');
+    this.testSoundBtn = document.getElementById('testSoundBtn');
+    this.demoSoundsBtn = document.getElementById('demoSoundsBtn');
+    
     // Risk/Reward modal elements
     this.riskRewardLevel = document.getElementById('riskRewardLevel');
     this.currentPoints = document.getElementById('currentPoints');
@@ -33,6 +40,14 @@ class MemoryLinkGame {
     this.accuracyEl = document.getElementById('accuracy');
     this.recentListEl = document.getElementById('recentList');
     this.performanceRatingEl = document.getElementById('performanceRating');
+    
+    // UI control elements
+    this.statsToggle = document.getElementById('statsToggle');
+    this.statsPanel = document.getElementById('statsPanel');
+    this.gameContainer = document.querySelector('.game-container');
+    
+    // Initialize sound manager
+    this.soundManager = new SoundManager();
     
     // Game state
     this.gameState = 'waiting'; // waiting, showing, input, gameOver, riskReward
@@ -101,6 +116,83 @@ class MemoryLinkGame {
     this.updateStatsDisplay();
     this.updateRecentGames();
     this.updatePerformanceRating();
+    this.initializeSoundManager();
+    this.setupSoundControls();
+  }
+
+  async initializeSoundManager() {
+    await this.soundManager.init();
+  }
+
+  setupSoundControls() {
+    // Set initial values from sound manager
+    this.soundToggle.checked = this.soundManager.isSoundsEnabled();
+    this.volumeSlider.value = this.soundManager.getVolume() * 100;
+    this.volumeValue.textContent = Math.round(this.soundManager.getVolume() * 100) + '%';
+    
+    // Sound toggle event
+    this.soundToggle.addEventListener('change', () => {
+      this.soundManager.toggleSounds();
+    });
+    
+    // Volume slider event
+    this.volumeSlider.addEventListener('input', (e) => {
+      const volume = e.target.value / 100;
+      this.soundManager.setVolume(volume);
+      this.volumeValue.textContent = e.target.value + '%';
+    });
+    
+    // Test sound button - cycle through color sounds
+    let testSoundIndex = 0;
+    const testSounds = ['red', 'blue', 'green', 'yellow', 'levelComplete'];
+    const testSoundNames = ['Red Button', 'Blue Button', 'Green Button', 'Yellow Button', 'Level Complete'];
+    
+    this.testSoundBtn.addEventListener('click', () => {
+      this.soundManager.play(testSounds[testSoundIndex]);
+      this.testSoundBtn.innerHTML = `<i class="fas fa-play me-1"></i>Test: ${testSoundNames[testSoundIndex]}`;
+      
+      testSoundIndex = (testSoundIndex + 1) % testSounds.length;
+      
+      // Reset button text after a short delay
+      setTimeout(() => {
+        this.testSoundBtn.innerHTML = `<i class="fas fa-play me-1"></i>Test Sound`;
+      }, 1000);
+    });
+    
+    // Demo all sounds button
+    this.demoSoundsBtn.addEventListener('click', () => {
+      this.demoAllSounds();
+    });
+  }
+
+  demoAllSounds() {
+    const demoSounds = [
+      { sound: 'red', name: 'Red Button', delay: 0 },
+      { sound: 'blue', name: 'Blue Button', delay: 600 },
+      { sound: 'green', name: 'Green Button', delay: 1200 },
+      { sound: 'yellow', name: 'Yellow Button', delay: 1800 },
+      { sound: 'wrongClick', name: 'Wrong Click', delay: 2500 },
+      { sound: 'levelComplete', name: 'Level Complete', delay: 3200 },
+      { sound: 'gameOver', name: 'Game Over', delay: 4200 },
+      { sound: 'countdown', name: 'Countdown', delay: 5500 },
+      { sound: 'gameStart', name: 'Game Start', delay: 6200 }
+    ];
+    
+    this.demoSoundsBtn.disabled = true;
+    this.demoSoundsBtn.innerHTML = `<i class="fas fa-spinner fa-spin me-1"></i>Playing Demo...`;
+    
+    demoSounds.forEach(({ sound, name, delay }) => {
+      setTimeout(() => {
+        this.soundManager.play(sound);
+        this.demoSoundsBtn.innerHTML = `<i class="fas fa-play me-1"></i>${name}`;
+      }, delay);
+    });
+    
+    // Reset button after demo
+    setTimeout(() => {
+      this.demoSoundsBtn.disabled = false;
+      this.demoSoundsBtn.innerHTML = `<i class="fas fa-music me-1"></i>Demo All`;
+    }, 7000);
   }
 
   generateGrid() {
@@ -170,6 +262,9 @@ class MemoryLinkGame {
     this.resetBtn.addEventListener('click', () => this.resetStats());
     this.settingsBtn.addEventListener('click', () => this.openSettings());
     
+    // Stats panel toggle
+    this.statsToggle.addEventListener('click', () => this.toggleStatsPanel());
+    
     // Risk/Reward modal events
     this.cashOutBtn.addEventListener('click', () => this.cashOut());
     this.continueBtn.addEventListener('click', () => this.continueGame());
@@ -202,16 +297,60 @@ class MemoryLinkGame {
         e.preventDefault();
         this.startGame();
       }
+      
+      // Toggle stats panel with F key or Escape
+      if (e.key === 'f' || e.key === 'F' || e.key === 'Escape') {
+        e.preventDefault();
+        this.toggleStatsPanel();
+      }
     });
   }
 
   bindMemoryButtonEvents() {
     // Memory button events
     this.memoryButtons.forEach((button, index) => {
+      // Use a flag to prevent overlapping transitions
+      let isPressed = false;
+      let pressTimeout = null;
+
+      button.addEventListener('mousedown', (e) => {
+        // Only allow press feedback in waiting state (for testing)
+        if (this.gameState === 'waiting' && !isPressed) {
+          isPressed = true;
+          this.activateButton(button);
+        }
+      });
+
+      button.addEventListener('mouseup', (e) => {
+        if (isPressed) {
+          isPressed = false;
+          // Clear any pending timeout
+          if (pressTimeout) {
+            clearTimeout(pressTimeout);
+          }
+          // Delay deactivation slightly to ensure smooth transition
+          pressTimeout = setTimeout(() => {
+            this.deactivateButton(button);
+            pressTimeout = null;
+          }, 50);
+        }
+      });
+
+      button.addEventListener('mouseleave', (e) => {
+        if (isPressed) {
+          isPressed = false;
+          // Clear any pending timeout
+          if (pressTimeout) {
+            clearTimeout(pressTimeout);
+          }
+          // Immediate deactivation on mouse leave
+          this.deactivateButton(button);
+          pressTimeout = null;
+        }
+      });
+
       button.addEventListener('click', () => this.handleButtonClick(index));
-      button.addEventListener('mousedown', () => this.activateButton(button));
-      button.addEventListener('mouseup', () => this.deactivateButton(button));
-      button.addEventListener('mouseleave', () => this.deactivateButton(button));
+      // Removed hover sound to avoid disrupting game rhythm
     });
   }
 
@@ -258,19 +397,27 @@ class MemoryLinkGame {
   startCountdown() {
     this.countdownActive = true;
     
-    // Create countdown overlay
+    // Create countdown overlay - append to body to avoid layout issues
     const countdownOverlay = document.createElement('div');
     countdownOverlay.className = 'countdown-overlay';
-    this.gameArea.appendChild(countdownOverlay);
+    
+    // Check if stats panel is hidden and adjust positioning
+    if (this.gameContainer.classList.contains('stats-hidden')) {
+      countdownOverlay.classList.add('stats-hidden');
+    }
+    
+    document.body.appendChild(countdownOverlay);
     
     let count = 3;
     const updateCountdown = () => {
       if (count > 0) {
         countdownOverlay.innerHTML = `<div class="countdown-number">${count}</div>`;
+        this.soundManager.play('countdown'); // Play countdown sound
         count--;
         setTimeout(updateCountdown, 1000);
       } else {
         countdownOverlay.innerHTML = `<div class="countdown-number">GO!</div>`;
+        this.soundManager.play('gameStart'); // Play game start sound
         setTimeout(() => {
           countdownOverlay.remove();
           this.countdownActive = false;
@@ -305,9 +452,9 @@ class MemoryLinkGame {
     this.currentSequenceIndex = 0;
     this.gameMessage.textContent = 'Watch the pattern...';
     
-    // Clear any previous highlights
+    // Clear any previous highlights and indicators
     this.memoryButtons.forEach(btn => {
-      btn.classList.remove('active', 'playing');
+      btn.classList.remove('active', 'playing', 'next-in-sequence', 'pressed', 'fade-out-pressed');
     });
     
     // Calculate speed for this level
@@ -328,9 +475,11 @@ class MemoryLinkGame {
     
     const buttonIndex = this.sequence[this.currentSequenceIndex];
     const button = this.memoryButtons[buttonIndex];
+    const buttonColor = button.getAttribute('data-color');
     
-    // Light up the button
+    // Light up the button and play color-specific sound
     button.classList.add('active', 'playing');
+    this.soundManager.play(`sequence${buttonColor.charAt(0).toUpperCase() + buttonColor.slice(1)}`);
     
     // Turn off after half the speed time
     this.showTimeout = setTimeout(() => {
@@ -354,31 +503,96 @@ class MemoryLinkGame {
     this.memoryButtons.forEach(btn => {
       btn.style.pointerEvents = 'auto';
     });
+    
+    // Highlight the first button in the sequence subtly
+    this.updateNextButtonIndicator();
+  }
+
+  updateNextButtonIndicator() {
+    // Clear all next indicators
+    this.memoryButtons.forEach(btn => {
+      btn.classList.remove('next-in-sequence');
+    });
+    
+    // Highlight the next button to press if we're in input mode
+    if (this.gameState === 'input' && this.playerSequence.length < this.sequence.length) {
+      const nextButtonIndex = this.sequence[this.playerSequence.length];
+      const nextButton = this.memoryButtons[nextButtonIndex];
+      nextButton.classList.add('next-in-sequence');
+    }
   }
 
   handleButtonClick(index) {
-    if (this.gameState !== 'input') return;
+    const button = this.memoryButtons[index];
+    const buttonColor = button.getAttribute('data-color');
+    
+    // Allow sound testing ONLY when waiting (before game starts)
+    if (this.gameState === 'waiting') {
+      // Play color-specific sound for testing
+      this.soundManager.play(buttonColor);
+      // Simple visual feedback for testing
+      this.flashButtonTest(button);
+      return;
+    }
+    
+    // Only allow actual gameplay during input state
+    if (this.gameState !== 'input') {
+      return;
+    }
+    
+    // Prevent extra clicks if sequence is already complete
+    if (this.playerSequence.length >= this.sequence.length) {
+      return;
+    }
     
     this.playerSequence.push(index);
-    const button = this.memoryButtons[index];
+    
+    // Remove next indicator from clicked button
+    button.classList.remove('next-in-sequence');
     
     // Check if input is correct so far
     const currentStep = this.playerSequence.length - 1;
     const isCorrect = this.playerSequence[currentStep] === this.sequence[currentStep];
     
     if (!isCorrect) {
-      // Wrong input - use aggressive shake animation
+      // Wrong input - use aggressive shake animation and wrong sound
       this.flashButtonWithShake(button);
+      this.soundManager.play('wrongClick'); // Play wrong click sound
+      // Clear all indicators
+      this.memoryButtons.forEach(btn => btn.classList.remove('next-in-sequence'));
       // Wrong input - game over
       this.endGame(false);
       return;
     } else {
-      // Correct input - use calm ripple animation
+      // Correct input - use calm ripple animation and color-specific sound
       this.flashButtonWithRipple(button);
+      this.soundManager.play(buttonColor); // Play color-specific sound
+      
+      // Update next button indicator only if sequence isn't complete
+      if (this.playerSequence.length < this.sequence.length) {
+        this.updateNextButtonIndicator();
+      }
     }
     
     // Check if sequence is complete
     if (this.playerSequence.length === this.sequence.length) {
+      // Immediately change state to prevent extra clicks
+      this.gameState = 'levelComplete';
+      
+      // Calculate and update score immediately
+      const levelBonus = this.currentLevel * 100;
+      const speedBonus = Math.max(0, this.baseSpeed - this.getCurrentSpeed()) / 10;
+      const levelScore = Math.round(levelBonus + speedBonus);
+      
+      this.baseScore += levelScore;
+      this.score = Math.round(this.baseScore * this.multiplier);
+      this.perfectRounds++;
+      
+      // Update display immediately
+      this.updateDisplays();
+      
+      // Clear all indicators
+      this.memoryButtons.forEach(btn => btn.classList.remove('next-in-sequence'));
       // Level complete!
       this.completeLevel();
     }
@@ -392,80 +606,51 @@ class MemoryLinkGame {
   }
 
   flashButtonWithRipple(button) {
-    // Add pressed state immediately
-    button.classList.add('pressed');
-    
-    // Add gentle pulse and ripple animation for correct clicks
-    button.classList.add('gentle-pulse', 'ripple');
-    
-    // Add active state for visual feedback
-    button.classList.add('active');
-    
-    // Remove pressed state quickly
-    setTimeout(() => {
-      button.classList.remove('pressed');
-    }, 100);
-    
-    // Remove active state
-    setTimeout(() => {
-      button.classList.remove('active');
-    }, 200);
+    // Add visual feedback with color change and gentle pulse
+    button.classList.add('gentle-pulse', 'ripple', 'active');
     
     // Remove animation classes after animation completes
     setTimeout(() => {
-      button.classList.remove('gentle-pulse', 'ripple');
+      button.classList.remove('gentle-pulse', 'ripple', 'active');
     }, 600);
   }
 
   flashButtonWithShake(button) {
-    // Add pressed state immediately
-    button.classList.add('pressed');
-    
-    // Add aggressive shake animation for wrong clicks
-    button.classList.add('shake-ripple');
-    
-    // Add active state for visual feedback
-    button.classList.add('active');
-    
-    // Remove pressed state quickly
-    setTimeout(() => {
-      button.classList.remove('pressed');
-    }, 100);
-    
-    // Remove active state
-    setTimeout(() => {
-      button.classList.remove('active');
-    }, 200);
+    // Add aggressive visual feedback for wrong clicks
+    button.classList.add('shake-ripple', 'active');
     
     // Remove animation classes after animation completes
     setTimeout(() => {
-      button.classList.remove('shake-ripple');
+      button.classList.remove('shake-ripple', 'active');
     }, 600);
   }
 
+  flashButtonTest(button) {
+    // Simple test animation - just a quick pulse with color-specific glow
+    button.classList.add('test-flash');
+    
+    setTimeout(() => {
+      button.classList.remove('test-flash');
+    }, 300);
+  }
+
   activateButton(button) {
-    if (this.gameState === 'input') {
-      button.classList.add('active', 'pressed');
-    }
+    // Only add pressed state for immediate visual feedback
+    button.classList.add('pressed');
   }
 
   deactivateButton(button) {
-    if (this.gameState === 'input') {
-      button.classList.remove('active', 'pressed');
-    }
+    // Simple removal - let the flash animations handle the main visual feedback
+    button.classList.remove('pressed');
   }
 
   completeLevel() {
-    // Calculate score
-    const levelBonus = this.currentLevel * 100;
-    const speedBonus = Math.max(0, this.baseSpeed - this.getCurrentSpeed()) / 10;
-    const levelScore = Math.round(levelBonus + speedBonus);
-    
-    this.baseScore += levelScore;
-    this.score = Math.round(this.baseScore * this.multiplier);
-    this.perfectRounds++;
+    // Score has already been calculated and updated in handleButtonClick
     
     this.currentLevel++;
+    
+    // Play level complete sound
+    this.soundManager.play('levelComplete');
     
     // Check if this is a milestone level (every 5 levels)
     if (this.currentLevel % 5 === 1 && this.currentLevel > 1) {
@@ -492,15 +677,16 @@ class MemoryLinkGame {
       this.showTimeout = null;
     }
     
-    // Clear any active states
+    // Clear any active states and indicators
     this.memoryButtons.forEach(btn => {
-      btn.classList.remove('active', 'playing');
+      btn.classList.remove('active', 'playing', 'next-in-sequence', 'pressed', 'fade-out-pressed');
     });
     
     const finalLevel = success ? this.currentLevel : this.currentLevel - 1;
     
     if (success) {
       this.gameMessage.textContent = `Amazing! You reached level ${finalLevel}!`;
+      this.soundManager.play('levelComplete'); // Play success sound
       // Record with full score and accuracy
       this.recordGame(finalLevel, this.score);
     } else {
@@ -508,11 +694,10 @@ class MemoryLinkGame {
       const lostMultiplierBonus = this.score - this.baseScore;
       const finalScore = this.baseScore;
       
-      if (this.multiplier > 1) {
-        this.gameMessage.textContent = `Game Over! You reached level ${finalLevel}. Lost multiplier bonus of ${lostMultiplierBonus} points!`;
-      } else {
-        this.gameMessage.textContent = `Game Over! You reached level ${finalLevel}`;
-      }
+      this.soundManager.play('gameOver'); // Play game over sound
+      
+      // Show game over overlay
+      this.showGameOverOverlay(finalLevel, lostMultiplierBonus);
       
       // Show incorrect button briefly
       const wrongIndex = this.playerSequence[this.playerSequence.length - 1];
@@ -553,6 +738,53 @@ class MemoryLinkGame {
       this.updateDisplays();
       this.gameMessage.textContent = 'Click Settings to choose grid size, then Start Game!';
     }, 3000);
+  }
+
+  showGameOverOverlay(finalLevel, lostMultiplierBonus) {
+    // Create game over overlay
+    const gameOverOverlay = document.createElement('div');
+    gameOverOverlay.className = 'game-over-overlay';
+    
+    // Check if stats panel is hidden and adjust positioning
+    if (this.gameContainer.classList.contains('stats-hidden')) {
+      gameOverOverlay.classList.add('stats-hidden');
+    }
+    
+    let message = `Game Over!<br>Level ${finalLevel}`;
+    if (this.multiplier > 1) {
+      message += `<br><small>Lost multiplier bonus: ${lostMultiplierBonus} pts</small>`;
+    }
+    
+    gameOverOverlay.innerHTML = `
+      <div class="game-over-content">
+        <div class="game-over-title">${message}</div>
+        <div class="game-over-hint">Click anywhere to continue</div>
+      </div>
+    `;
+    
+    // Append to body for proper positioning
+    document.body.appendChild(gameOverOverlay);
+    
+    // Function to dismiss overlay
+    const dismissOverlay = () => {
+      gameOverOverlay.classList.add('fade-out');
+      setTimeout(() => {
+        if (gameOverOverlay.parentNode) {
+          gameOverOverlay.parentNode.removeChild(gameOverOverlay);
+        }
+      }, 500);
+    };
+    
+    // Make clickable to dismiss
+    gameOverOverlay.addEventListener('click', dismissOverlay);
+    
+    // Fade in
+    setTimeout(() => {
+      gameOverOverlay.classList.add('show');
+    }, 100);
+    
+    // Auto-fade out after 3 seconds (but can be dismissed early)
+    setTimeout(dismissOverlay, 3000);
   }
 
   getCurrentSpeed() {
@@ -908,6 +1140,9 @@ class MemoryLinkGame {
     // Stop popup chats during decision
     this.stopPopupChats();
     
+    // Play risk/reward modal sound
+    this.soundManager.play('riskReward');
+    
     // Update modal content
     this.riskRewardLevel.textContent = this.currentLevel - 1;
     this.currentPoints.textContent = this.score;
@@ -931,6 +1166,9 @@ class MemoryLinkGame {
     // Player chooses to end the game and keep their points and accuracy
     const modal = bootstrap.Modal.getInstance(this.riskRewardModal);
     modal.hide();
+    
+    // Play cash out sound
+    this.soundManager.play('cashOut');
     
     const finalLevel = this.currentLevel - 1;
     const finalAccuracy = Math.round((this.perfectRounds / finalLevel) * 100);
@@ -1005,6 +1243,22 @@ class MemoryLinkGame {
       this.updateDisplays();
       this.gameMessage.textContent = 'Click Settings to choose grid size, then Start Game!';
     }, 2000);
+  }
+
+  toggleStatsPanel() {
+    const isHidden = this.statsPanel.classList.contains('hidden');
+    
+    if (isHidden) {
+      // Show stats panel
+      this.statsPanel.classList.remove('hidden');
+      this.gameContainer.classList.remove('stats-hidden');
+      this.statsToggle.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    } else {
+      // Hide stats panel
+      this.statsPanel.classList.add('hidden');
+      this.gameContainer.classList.add('stats-hidden');
+      this.statsToggle.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    }
   }
 }
 

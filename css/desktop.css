@@ -1,0 +1,600 @@
+/* Retro Desktop OS Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  line-height: 1.4;
+  overflow: hidden;
+  background: linear-gradient(45deg, #ff9ec7 0%, #ffb3ff 25%, #c7b3ff 50%, #9ec7ff 75%, #9effff 100%);
+  background-attachment: fixed;
+  height: 100vh;
+  user-select: none;
+  cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVCiRpZM9SwNBEIafgxCwsLGwsLW1tbW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLCwsLGwsLW1sLC
+}
+
+/* Desktop */
+.desktop {
+  width: 100%;
+  height: calc(100vh - 32px);
+  position: relative;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.03) 2px,
+      rgba(255,255,255,0.03) 4px
+    );
+}
+
+.desktop-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 80px);
+  grid-gap: 20px;
+  padding: 20px;
+  height: 100%;
+  align-content: start;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  max-width: 80px;
+}
+
+.desktop-icon:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: 1px dotted rgba(255, 255, 255, 0.5);
+}
+
+.desktop-icon.selected {
+  background-color: rgba(0, 0, 139, 0.7);
+  outline: 1px dotted #ffffff;
+}
+
+.icon-image {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  image-rendering: pixelated;
+}
+
+/* Icon Styles */
+.games-icon {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjRkZCM0RBIi8+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB4PSI4IiB5PSI4IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjRkZCM0RBIi8+CjxyZWN0IHg9IjIwIiB5PSI4IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjRkZCM0RBIi8+CjxyZWN0IHg9IjgiIHk9IjIwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjRkZCM0RBIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjQiIGhlaWdodD0iNCIgZmlsbD0iI0ZGQjNEQSIvPgo8L3N2Zz4K');
+}
+
+.browser-icon {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjQjNEQUZGIi8+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB4PSI0IiB5PSI0IiB3aWR0aD0iMjQiIGhlaWdodD0iOCIgZmlsbD0iI0IzREFGRiIvPgo8Y2lyY2xlIGN4PSI4IiBjeT0iOCIgcj0iMiIgZmlsbD0iI0ZGRkZGRiIvPgo8Y2lyY2xlIGN4PSIxNCIgY3k9IjgiIHI9IjIiIGZpbGw9IiNGRkZGRkYiLz4KPGNpcmNsZSBjeD0iMjAiIGN5PSI4IiByPSIyIiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHg9IjgiIHk9IjE2IiB3aWR0aD0iMTYiIGhlaWdodD0iMiIgZmlsbD0iI0IzREFGRiIvPgo8cmVjdCB4PSI4IiB5PSIyMCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjIiIGZpbGw9IiNCM0RBRkYiLz4KPC9zdmc+Cg==');
+}
+
+.document-icon {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjRkZEQUI5Ii8+CjxyZWN0IHg9IjYiIHk9IjQiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB4PSIxMCIgeT0iOCIgd2lkdGg9IjEyIiBoZWlnaHQ9IjIiIGZpbGw9IiNGRkRBQjkiLz4KPHJlY3QgeD0iMTAiIHk9IjEyIiB3aWR0aD0iMTIiIGhlaWdodD0iMiIgZmlsbD0iI0ZGREFCOSIvPgo8cmVjdCB4PSIxMCIgeT0iMTYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIyIiBmaWxsPSIjRkZEQUI5Ii8+CjxyZWN0IHg9IjEwIiB5PSIyMCIgd2lkdGg9IjgiIGhlaWdodD0iMiIgZmlsbD0iI0ZGREFCOSIvPgo8L3N2Zz4K');
+}
+
+.folder-icon {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjRkZGRkIzIi8+CjxyZWN0IHg9IjQiIHk9IjEwIiB3aWR0aD0iMjQiIGhlaWdodD0iMTgiIGZpbGw9IiNGRkZGQjMiLz4KPHJlY3QgeD0iNCIgeT0iNiIgd2lkdGg9IjEyIiBoZWlnaHQ9IjgiIGZpbGw9IiNGRkZGQjMiLz4KPHJlY3QgeD0iOCIgeT0iMTQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIyIiBmaWxsPSIjRkZEQUE5Ii8+CjxyZWN0IHg9IjgiIHk9IjE4IiB3aWR0aD0iMTYiIGhlaWdodD0iMiIgZmlsbD0iI0ZGREFBOSIvPgo8cmVjdCB4PSI4IiB5PSIyMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjIiIGZpbGw9IiNGRkRBQTkiLz4KPC9zdmc+Cg==');
+}
+
+.art-folder {
+  filter: hue-rotate(260deg) saturate(0.7);
+}
+
+.music-folder {
+  filter: hue-rotate(180deg) saturate(0.8);
+}
+
+.trash-icon {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjRDBEMEQwIi8+CjxyZWN0IHg9IjgiIHk9IjEwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTgiIGZpbGw9IiNEMEQwRDAiLz4KPHJlY3QgeD0iMTAiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSI0IiBmaWxsPSIjRDBEMEQwIi8+CjxyZWN0IHg9IjYiIHk9IjgiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyIiBmaWxsPSIjRDBEMEQwIi8+CjxyZWN0IHg9IjEyIiB5PSIxNCIgd2lkdGg9IjIiIGhlaWdodD0iMTAiIGZpbGw9IiNGRkZGRkYiLz4KPHJlY3QgeD0iMTYiIHk9IjE0IiB3aWR0aD0iMiIgaGVpZ2h0PSIxMCIgZmlsbD0iI0ZGRkZGRiIvPgo8cmVjdCB4PSIyMCIgeT0iMTQiIHdpZHRoPSIyIiBoZWlnaHQ9IjEwIiBmaWxsPSIjRkZGRkZGIi8+Cjwvc3ZnPgo=');
+}
+
+.trash-icon-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.icon-label {
+  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  word-wrap: break-word;
+  max-width: 80px;
+  line-height: 1.2;
+}
+
+/* Taskbar */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: linear-gradient(to bottom, #e6ccff 0%, #d9b3ff 100%);
+  border-top: 1px solid #ffffff;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.start-button {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  background: linear-gradient(to bottom, #e6ccff 0%, #d9b3ff 100%);
+  border: 1px outset #e6ccff;
+  cursor: pointer;
+  margin: 2px;
+  height: 28px;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+.start-button:hover {
+  background: linear-gradient(to bottom, #f0d9ff 0%, #e6ccff 100%);
+}
+
+.start-button:active,
+.start-button.active {
+  border: 1px inset #e6ccff;
+  background: linear-gradient(to bottom, #d9b3ff 0%, #e6ccff 100%);
+  box-shadow: inset -1px -1px 0 rgba(255,255,255,0.3);
+}
+
+.start-icon {
+  font-size: 12px;
+  margin-right: 4px;
+  color: #8b4fbf;
+}
+
+.start-text {
+  font-size: 8px;
+  color: #4a148c;
+  font-weight: bold;
+}
+
+.taskbar-center {
+  flex: 1;
+  padding: 0 8px;
+}
+
+.window-buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.taskbar-window {
+  padding: 4px 8px;
+  background: linear-gradient(to bottom, #e6ccff 0%, #d9b3ff 100%);
+  border: 1px outset #e6ccff;
+  cursor: pointer;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 8px;
+  color: #4a148c;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+.taskbar-window.active {
+  border: 1px inset #e6ccff;
+  background: linear-gradient(to bottom, #d9b3ff 0%, #e6ccff 100%);
+  box-shadow: inset -1px -1px 0 rgba(255,255,255,0.3);
+}
+
+.taskbar-right {
+  padding: 4px 8px;
+}
+
+.system-tray {
+  display: flex;
+  align-items: center;
+}
+
+.clock {
+  font-size: 8px;
+  color: #4a148c;
+  background: linear-gradient(to bottom, #e6ccff 0%, #d9b3ff 100%);
+  border: 1px inset #e6ccff;
+  padding: 2px 6px;
+  box-shadow: inset -1px -1px 0 rgba(255,255,255,0.3);
+}
+
+/* Start Menu */
+.start-menu {
+  position: fixed;
+  bottom: 32px;
+  left: 2px;
+  width: 200px;
+  background: linear-gradient(to bottom, #e6ccff 0%, #d9b3ff 100%);
+  border: 2px outset #e6ccff;
+  z-index: 2000;
+  display: none;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+}
+
+.start-menu.show {
+  display: block;
+}
+
+.start-menu-header {
+  background: linear-gradient(90deg, #8b4fbf 0%, #b347d9 100%);
+  color: white;
+  padding: 8px;
+  text-align: center;
+}
+
+.start-menu-title {
+  font-size: 10px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.start-menu-version {
+  font-size: 6px;
+  opacity: 0.8;
+}
+
+.start-menu-items {
+  padding: 4px 0;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #4a148c;
+  font-size: 8px;
+  transition: background-color 0.1s;
+}
+
+.start-menu-item:hover {
+  background: #b347d9;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.start-menu-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.start-menu-separator {
+  height: 1px;
+  background: #cc99ff;
+  margin: 4px 8px;
+  border-top: 1px solid #ffffff;
+}
+
+.shutdown-icon {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjciIGZpbGw9IiNGRjQ0NDQiLz4KPHJlY3QgeD0iNyIgeT0iNCIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iI0ZGRkZGRiIvPgo8Y2lyY2xlIGN4PSI4IiBjeT0iMTEiIHI9IjEiIGZpbGw9IiNGRkZGRkYiLz4KPC9zdmc+Cg==');
+}
+
+/* Window Styles */
+.window {
+  position: absolute;
+  background: #f0e6ff;
+  border: 2px outset #f0e6ff;
+  min-width: 300px;
+  min-height: 200px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.window.loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.window.active {
+  z-index: 200;
+}
+
+.window-header {
+  background: linear-gradient(90deg, #b347d9 0%, #d947b3 100%);
+  color: white;
+  padding: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: move;
+  user-select: none;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.window-title {
+  font-size: 8px;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+}
+
+.window-title-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.window-controls {
+  display: flex;
+  gap: 1px;
+}
+
+.window-control {
+  width: 16px;
+  height: 14px;
+  background: linear-gradient(to bottom, #f0e6ff 0%, #e6ccff 100%);
+  border: 1px outset #f0e6ff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6px;
+  color: #4a148c;
+  font-weight: bold;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+.window-control:hover {
+  background: linear-gradient(to bottom, #f5f0ff 0%, #f0e6ff 100%);
+}
+
+.window-control:active {
+  border: 1px inset #f0e6ff;
+  box-shadow: inset -1px -1px 0 rgba(255,255,255,0.3);
+}
+
+/* Window Loading Animation */
+.window-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 20px;
+  background: #e6ccff;
+  border: 2px inset #f0e6ff;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.loading-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff6b9d, #c44569, #6a0572);
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.2) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.2) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.2) 75%);
+  animation: progress-stripes 1s linear infinite;
+  transition: width 0.8s ease-out;
+}
+
+@keyframes progress-stripes {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 0; }
+}
+
+.loading-text {
+  color: #6a0572;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  animation: loading-blink 1.5s infinite;
+}
+
+@keyframes loading-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.5; }
+}
+
+.window-content {
+  flex: 1;
+  padding: 8px;
+  background: #ffffff;
+  overflow: auto;
+  border-top: 1px solid #e6ccff;
+}
+
+/* Window Animations */
+.window-opening {
+  animation: windowOpen 0.3s ease-out;
+  transform-origin: center top;
+}
+
+.window-loaded {
+  animation: windowLoaded 0.2s ease-out;
+}
+
+@keyframes windowOpen {
+  0% {
+    transform: scale(0.8) translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes windowLoaded {
+  0% {
+    filter: brightness(1.2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+/* Window State Transitions */
+.window {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.window-maximized {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.window-fullscreen {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.window-fullscreen .window-header {
+  background: linear-gradient(to bottom, #4a148c 0%, #6a1b9a 100%);
+  color: white;
+}
+
+.window-fullscreen .window-controls .window-control {
+  background: linear-gradient(to bottom, #7b1fa2 0%, #8e24aa 100%);
+  color: white;
+  border: 1px outset #9c27b0;
+}
+
+.window-fullscreen .window-controls .window-control:hover {
+  background: linear-gradient(to bottom, #8e24aa 0%, #9c27b0 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    font-size: 10px;
+  }
+  
+  .desktop-icons {
+    grid-template-columns: repeat(auto-fill, 70px);
+    grid-gap: 15px;
+    padding: 15px;
+  }
+  
+  .desktop-icon {
+    max-width: 70px;
+  }
+  
+  .icon-image {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .window {
+    min-width: 250px;
+    min-height: 150px;
+  }
+  
+  .start-menu {
+    width: 180px;
+  }
+}
+
+/* Animations */
+.window {
+  animation: windowOpen 0.2s ease-out;
+}
+
+@keyframes windowOpen {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.desktop-icon:active {
+  transform: scale(0.95);
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000080;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.loading-screen.hidden {
+  display: none;
+}
+
+.loading-title {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.loading-subtitle {
+  font-size: 8px;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 20px;
+  border: 2px solid white;
+  background: transparent;
+  position: relative;
+}
+
+.loading-progress {
+  height: 100%;
+  background: white;
+  width: 0%;
+  animation: loadProgress 3s ease-in-out forwards;
+}
+
+@keyframes loadProgress {
+  to {
+    width: 100%;
+  }
+}
