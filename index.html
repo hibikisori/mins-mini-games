@@ -1,117 +1,792 @@
 <!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Min OS - Desktop</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000080;
-      color: white;
-      font-family: 'Press Start 2P', monospace;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-    .boot-screen {
-      max-width: 600px;
-      padding: 40px;
-    }
-    .logo {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #ffffff;
-    }
-    .subtitle {
-      font-size: 10px;
-      margin-bottom: 40px;
-      opacity: 0.8;
-    }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-    .option {
-      padding: 15px 30px;
-      background: linear-gradient(to bottom, #c0c0c0 0%, #808080 100%);
-      border: 2px outset #c0c0c0;
-      color: black;
-      text-decoration: none;
-      font-size: 10px;
-      transition: all 0.1s;
-      cursor: pointer;
-    }
-    .option:hover {
-      background: linear-gradient(to bottom, #d0d0d0 0%, #a0a0a0 100%);
-      color: black;
-      text-decoration: none;
-    }
-    .option:active {
-      border: 2px inset #c0c0c0;
-      background: linear-gradient(to bottom, #a0a0a0 0%, #c0c0c0 100%);
-    }
-    .footer {
-      font-size: 8px;
-      opacity: 0.6;
-      margin-top: 40px;
-    }
-    @media (max-width: 768px) {
-      .logo { font-size: 18px; }
-      .subtitle { font-size: 8px; }
-      .option { font-size: 8px; padding: 12px 20px; }
-    }
-  </style>
-</head>
-<<body>
-  <div class="boot-screen">
-    <div class="logo">Min OS</div>
-    <div class="subtitle">Welcome to the Retro Desktop Experience</div>
-    
-    <div class="options">
-      <a href="desktop.html" class="option">
-        🖥️ Boot to Desktop OS
-      </a>
-      <a href="portfolio.html" class="option">
-        🌐 Classic Portfolio View
-      </a>
-      <a href="about.html" class="option">
-        📄 About
-      </a>
-      <a href="themes.html" class="option">
-        🎨 Themes
-      </a>
-    </div>
-    
-    <div class="footer">
-      © 2025 Min • Press any option to continue
-    </div>
-  </div>
-
+  <title>Min • Portfolio</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
+  
+  <!-- Prevent flash of unstyled content -->
   <script>
-    // Auto-redirect to desktop after 5 seconds if no interaction
-    let redirectTimer = setTimeout(() => {
-      window.location.href = 'desktop.html';
-    }, 5000);
+    // Apply saved theme immediately to prevent flash
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top" id="mainNavbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand logo" href="index.html">Min</a>
+      <div class="d-flex align-items-center">
+        <ul class="navbar-nav me-3">
+          <li class="nav-item"><a class="nav-link no-particles" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link no-particles" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link no-particles" href="themes.html">Themes</a></li>
+        </ul>
+        <button id="themeToggle" class="btn btn-outline-secondary me-3 no-particles" aria-label="Toggle Light/Dark">🌙</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="py-5 bg-accent text-center position-relative hero-section" data-aos="fade-up">
+    <div class="container">
+      <h1 class="display-3 fw-bold mb-3 hero-title">Min's Mini Games</h1>
+      <p class="lead mb-0 hero-subtitle">A showcase of small, hand-crafted browser games</p>
+    </div>
+    <div class="position-absolute bottom-0 start-0 w-100" style="height: 3px; background: linear-gradient(90deg, var(--primary), transparent, var(--primary));"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+  </header>
+
+  <!-- Games -->
+  <main class="py-5">
+    <div class="container">
+      <!-- Game Categories Legend -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="category-legend">
+            <h3 class="text-center mb-3">Game Categories</h3>
+            <div class="row justify-content-center">
+              <div class="col-md-3 col-6 mb-2">
+                <div class="category-item brain">
+                  <i class="fas fa-brain"></i>
+                  <span>Brain Games</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-2">
+                <div class="category-item action">
+                  <i class="fas fa-crosshairs"></i>
+                  <span>Action Games</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-2">
+                <div class="category-item strategy">
+                  <i class="fas fa-chess"></i>
+                  <span>Strategy Games</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-2">
+                <div class="category-item puzzle">
+                  <i class="fas fa-puzzle-piece"></i>
+                  <span>Puzzle Games</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4" id="gameGrid">
+        <!-- QuickFlex -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-bolt text-action"></i>
+                QuickFlex
+              </h5>
+              <p class="card-text">Test your reflexes and track your progress. Click as fast as you can when the signal appears!</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="games/reaction-time/index.html" class="btn btn-primary w-100">Play</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- MemoryLink -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-brain text-brain"></i>
+                MemoryLink
+              </h5>
+              <p class="card-text">Challenge your memory with pattern sequences. Watch the colors light up and repeat them back!</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="games/memory-link/index.html" class="btn btn-primary w-100">Play</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DefendLine -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-shield-alt text-strategy"></i>
+                DefendLine
+              </h5>
+              <p class="card-text">Strategic tower defense action! Place towers to defend your base from waves of enemies.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="games/defend-line/index.html" class="btn btn-primary w-100">Play</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Word Wizard -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-puzzle-piece text-puzzle"></i>
+                Word Wizard
+              </h5>
+              <p class="card-text">Challenge your vocabulary! Unscramble letters to form words against the clock in this brain-teasing puzzle.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Laser Strike -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-crosshairs text-action"></i>
+                Laser Strike
+              </h5>
+              <p class="card-text">Precision shooting game! Hit moving targets with laser accuracy. Master different weapons and challenge modes.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Number Flow -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="600">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-calculator text-brain"></i>
+                Number Flow
+              </h5>
+              <p class="card-text">Mathematical mind bender! Solve equations quickly and accurately to keep the number flow going.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hex Commander -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="700">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-chess-knight text-strategy"></i>
+                Hex Commander
+              </h5>
+              <p class="card-text">Turn-based tactical warfare on hexagonal grids. Command units, capture territory, and outmaneuver opponents.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Maze -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="800">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-palette text-puzzle"></i>
+                Color Maze
+              </h5>
+              <p class="card-text">Navigate through color-coded mazes! Match hues and solve visual puzzles to find your way to the exit.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Velocity Rush -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="900">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-rocket text-action"></i>
+                Velocity Rush
+              </h5>
+              <p class="card-text">High-speed endless runner! Dodge obstacles, collect power-ups, and push your reflexes to the limit.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pattern Master -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1000">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-project-diagram text-brain"></i>
+                Pattern Master
+              </h5>
+              <p class="card-text">Decode complex visual patterns! Train your pattern recognition skills with increasingly challenging sequences.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- City Builder -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1100">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-city text-strategy"></i>
+                City Builder
+              </h5>
+              <p class="card-text">Build and manage your metropolis! Balance resources, plan infrastructure, and grow a thriving city from scratch.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block Shift -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1200">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-cubes text-puzzle"></i>
+                Block Shift
+              </h5>
+              <p class="card-text">3D puzzle mechanics! Rotate and shift blocks to create perfect matches and clear the board in this spatial challenge.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Neon Runner -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1300">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-running text-action"></i>
+                Neon Runner
+              </h5>
+              <p class="card-text">Cyberpunk parkour adventure! Jump, slide, and dash through neon-lit cityscapes while avoiding deadly obstacles.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mind Palace -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1400">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-building text-brain"></i>
+                Mind Palace
+              </h5>
+              <p class="card-text">Memory training through virtual rooms! Navigate mental spaces and remember object locations in this cognitive challenge.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resource Wars -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1500">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-fire text-strategy"></i>
+                Resource Wars
+              </h5>
+              <p class="card-text">Real-time strategy warfare! Gather resources, build armies, and conquer territories in this intense multiplayer RTS.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logic Gates -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1600">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-microchip text-puzzle"></i>
+                Logic Gates
+              </h5>
+              <p class="card-text">Digital circuit puzzles! Connect logic gates to solve boolean problems and create functional electronic circuits.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Storm Chaser -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1700">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-cloud-bolt text-action"></i>
+                Storm Chaser
+              </h5>
+              <p class="card-text">Weather warfare! Pilot through dangerous storms, avoid lightning strikes, and collect data in extreme conditions.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Breaker -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1800">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-lock text-brain"></i>
+                Code Breaker
+              </h5>
+              <p class="card-text">Cryptography challenges! Decode secret messages, crack ciphers, and unlock encrypted puzzles with logical deduction.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fleet Admiral -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="1900">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-ship text-strategy"></i>
+                Fleet Admiral
+              </h5>
+              <p class="card-text">Naval strategy simulation! Command fleets, manage supply lines, and engage in epic sea battles across vast oceans.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tile Flow -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2000">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-th-large text-puzzle"></i>
+                Tile Flow
+              </h5>
+              <p class="card-text">Connect the pipes! Route water through tile networks by rotating and placing pieces to create continuous flow paths.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shadow Strike -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2100">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-user-ninja text-action"></i>
+                Shadow Strike
+              </h5>
+              <p class="card-text">Stealth action gameplay! Move through shadows, avoid detection, and eliminate targets using ninja skills and tactics.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Synapse -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2200">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-network-wired text-brain"></i>
+                Synapse
+              </h5>
+              <p class="card-text">Neural network puzzles! Connect neurons, create pathways, and solve brain-inspired logic challenges in this unique puzzler.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Space Colony -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2300">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-satellite text-strategy"></i>
+                Space Colony
+              </h5>
+              <p class="card-text">Interstellar expansion! Establish bases on alien worlds, manage resources, and explore the galaxy in this 4X strategy game.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mirror Match -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2400">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-mirror text-puzzle"></i>
+                Mirror Match
+              </h5>
+              <p class="card-text">Reflection puzzles! Use mirrors and light beams to solve optical challenges and illuminate targets in this physics puzzle.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cyber Dash -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2500">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-microchip text-action"></i>
+                Cyber Dash
+              </h5>
+              <p class="card-text">Hack through digital mazes! Navigate cybernetic corridors, avoid security systems, and breach data vaults in this tech thriller.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Memory Matrix -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2600">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-table text-brain"></i>
+                Memory Matrix
+              </h5>
+              <p class="card-text">Grid-based memory challenges! Remember patterns, sequences, and positions in increasingly complex matrix puzzles.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empire Builder -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2700">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-crown text-strategy"></i>
+                Empire Builder
+              </h5>
+              <p class="card-text">Historic civilization management! Lead your people from ancient times to modern era through diplomacy, trade, and warfare.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantum Shift -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2800">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-atom text-puzzle"></i>
+                Quantum Shift
+              </h5>
+              <p class="card-text">Physics-based puzzles! Manipulate quantum states, particles, and energy fields to solve mind-bending scientific challenges.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bullet Ballet -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="2900">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-bullseye text-action"></i>
+                Bullet Ballet
+              </h5>
+              <p class="card-text">Dodge-focused action! Weave through bullet patterns in this mesmerizing dance of projectiles and precise movement.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Focus Training -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="3000">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-eye text-brain"></i>
+                Focus Training
+              </h5>
+              <p class="card-text">Attention and concentration exercises! Improve your focus with targeted mini-games designed by cognitive scientists.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mech Commander -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="3100">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-robot text-strategy"></i>
+                Mech Commander
+              </h5>
+              <p class="card-text">Giant robot warfare! Command customizable mechs in tactical battles across futuristic battlefields with terrain advantages.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Circuit Solver -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="3200">
+          <div class="card game-card h-100 puzzle-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-plug text-puzzle"></i>
+                Circuit Solver
+              </h5>
+              <p class="card-text">Electrical engineering puzzles! Wire circuits, manage power flow, and solve complex electrical challenges with realistic physics.</p>
+              <div class="game-category">
+                <span class="badge bg-puzzle">Puzzle</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Turbo Trials -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="3300">
+          <div class="card game-card h-100 action-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-tachometer-alt text-action"></i>
+                Turbo Trials
+              </h5>
+              <p class="card-text">High-speed racing challenges! Master tight turns, boost management, and split-second decisions in intense racing scenarios.</p>
+              <div class="game-category">
+                <span class="badge bg-action">Action</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cognitive Gym -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="3400">
+          <div class="card game-card h-100 brain-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-dumbbell text-brain"></i>
+                Cognitive Gym
+              </h5>
+              <p class="card-text">Mental fitness training! Work out your brain with scientifically-designed exercises for memory, attention, and processing speed.</p>
+              <div class="game-category">
+                <span class="badge bg-brain">Brain</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trade Routes -->
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="3500">
+          <div class="card game-card h-100 strategy-game">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-route text-strategy"></i>
+                Trade Routes
+              </h5>
+              <p class="card-text">Economic strategy simulation! Build merchant empires, establish trade networks, and navigate market fluctuations across continents.</p>
+              <div class="game-category">
+                <span class="badge bg-strategy">Strategy</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pb-4">
+              <a href="#" class="btn btn-primary w-100">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center bg-accent" data-aos="fade-up" data-aos-delay="200">
+    <div class="container">
+      <small>© 2025 Min. Built with Bootstrap, AOS & Vanilla JS.</small>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/mobile.js"></script>
+  <script>
+    // Only show navbar animation on home page and only on first visit
+    const isFirstVisit = !sessionStorage.getItem('hasVisited');
+    const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/';
     
-    // Cancel auto-redirect if user interacts
-    document.addEventListener('click', () => {
-      clearTimeout(redirectTimer);
-    });
+    if (isFirstVisit && isHomePage) {
+      // Mark as visited for this session
+      sessionStorage.setItem('hasVisited', 'true');
+      
+      // Add AOS animation only on first visit to home page
+      document.getElementById('mainNavbar').setAttribute('data-aos', 'fade-down');
+    }
     
-    document.addEventListener('keydown', () => {
-      clearTimeout(redirectTimer);
-    });
+    AOS.init({ once: true, duration: 600, easing: 'ease-out' });
   </script>
 </body>
 </html>
