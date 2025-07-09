@@ -33,15 +33,36 @@
           <li class="nav-item"><a class="nav-link" href="../../themes.html">Themes</a></li>
         </ul>
         <button id="themeToggle" class="btn btn-outline-secondary me-3" aria-label="Toggle Light/Dark">🌙</button>
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+          <i class="fas fa-bars"></i>
+        </button>
       </div>
     </div>
   </nav>
 
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="nav-link" href="../../index.html"><i class="fas fa-home me-2"></i>Home</a>
+    <a class="nav-link" href="../../about.html"><i class="fas fa-info-circle me-2"></i>About</a>
+    <a class="nav-link" href="../../themes.html"><i class="fas fa-palette me-2"></i>Themes</a>
+    <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--nav-border);">
+      <button id="mobileThemeToggle" class="btn btn-outline-secondary w-100">
+        <i class="fas fa-moon me-2"></i>Toggle Theme
+      </button>
+    </div>
+  </div>
+
   <!-- Main Game Content -->
-  <main class="container-fluid game-container">
+  <main class="container-fluid game-container" id="gameContainer">
     <div class="row h-100">
       <!-- Stats Panel -->
-      <div class="col-lg-4 stats-panel">
+      <div class="col-lg-4 stats-panel" id="statsPanel">
+        <!-- Stats Toggle Button -->
+        <button id="statsToggle" class="stats-toggle-btn" aria-label="Toggle Stats Panel" title="Hide/Show Stats Panel (F key)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
         <div class="stats-container">
           <div class="stats-header">
             <h3><i class="fas fa-chart-line me-2"></i>Statistics</h3>
@@ -184,6 +205,38 @@
               </button>
             </div>
           </div>
+          
+          <div class="settings-section mt-4">
+            <h6><i class="fas fa-volume-up me-2"></i>Sound Settings</h6>
+            <p class="text-muted small">Adjust audio preferences</p>
+            
+            <div class="mb-3">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="soundToggle" checked>
+                <label class="form-check-label" for="soundToggle">
+                  Enable Sound Effects
+                </label>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="volumeSlider" class="form-label">Volume</label>
+              <div class="d-flex align-items-center">
+                <i class="fas fa-volume-down me-2"></i>
+                <input type="range" class="form-range flex-grow-1 mx-2" id="volumeSlider" min="0" max="100" value="50">
+                <i class="fas fa-volume-up ms-2"></i>
+                <span class="ms-2 text-muted" id="volumeValue">50%</span>
+              </div>
+            </div>
+            
+            <button type="button" class="btn btn-outline-primary btn-sm me-2" id="testSoundBtn">
+              <i class="fas fa-play me-1"></i>Test Sound
+            </button>
+            
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="demoSoundsBtn">
+              <i class="fas fa-music me-1"></i>Demo All
+            </button>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -249,6 +302,125 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../../js/theme.js"></script>
+  <script src="../../js/sound-manager.js"></script>
+  <script src="../../js/navigation.js"></script>
   <script src="script.js"></script>
+  
+  <!-- Mobile Navigation Script -->
+  <script>
+    // Mobile navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const navbar = document.getElementById('mainNavbar');
+      const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+      const themeToggle = document.getElementById('themeToggle');
+      
+      let lastScrollY = window.scrollY;
+      let scrollTimeout;
+      
+      // Mobile menu toggle
+      if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', function() {
+          mobileMenu.classList.toggle('active');
+          const icon = mobileMenuToggle.querySelector('i');
+          icon.classList.toggle('fa-bars');
+          icon.classList.toggle('fa-times');
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            mobileMenu.classList.remove('active');
+            const icon = mobileMenuToggle.querySelector('i');
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times');
+          }
+        });
+      }
+      
+      // Mobile theme toggle
+      if (mobileThemeToggle && themeToggle) {
+        mobileThemeToggle.addEventListener('click', function() {
+          themeToggle.click(); // Trigger the main theme toggle
+          mobileMenu.classList.remove('active'); // Close menu after action
+        });
+      }
+      
+      // Hide navbar on scroll for mobile
+      function handleScroll() {
+        if (window.innerWidth <= 768) {
+          const currentScrollY = window.scrollY;
+          
+          if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down
+            navbar.classList.add('hidden');
+            mobileMenu.classList.remove('active');
+          } else {
+            // Scrolling up
+            navbar.classList.remove('hidden');
+          }
+          
+          lastScrollY = currentScrollY;
+        }
+      }
+      
+      // Throttled scroll handler
+      window.addEventListener('scroll', function() {
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(handleScroll, 10);
+      });
+      
+      // Handle window resize
+      window.addEventListener('resize', function() {
+        const statsPanel = document.getElementById('statsPanel');
+        const gameContainer = document.getElementById('gameContainer');
+        
+        if (window.innerWidth > 768) {
+          navbar.classList.remove('hidden');
+          mobileMenu.classList.remove('active');
+          // Reset mobile state
+          if (statsPanel) {
+            statsPanel.classList.remove('active');
+          }
+          // Keep desktop state
+        } else {
+          // Reset desktop state on mobile
+          if (statsPanel && gameContainer) {
+            statsPanel.classList.remove('hidden');
+            gameContainer.classList.remove('stats-hidden');
+          }
+        }
+      });
+      
+      // Ensure theme persistence on navigation
+      function ensureThemeApplied() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme !== savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+      }
+      
+      // Apply theme on page show (handles back/forward navigation)
+      window.addEventListener('pageshow', ensureThemeApplied);
+      
+      // Apply theme on storage change (if theme changed in another tab)
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'theme') {
+          ensureThemeApplied();
+        }
+      });
+      
+      // Apply theme on visibility change
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+          ensureThemeApplied();
+        }
+      });
+    });
+  </script>
 </body>
 </html>

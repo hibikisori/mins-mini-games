@@ -2,8 +2,10 @@
 
 /* Game Container */
 .game-container {
-  min-height: calc(100vh - 76px);
+  height: calc(100vh - 76px);
+  max-height: calc(100vh - 76px);
   padding: 20px;
+  overflow: hidden;
 }
 
 /* Start Game Button Section (under game) */
@@ -146,12 +148,14 @@
 .stats-panel {
   padding: 1rem 1rem 1rem 1.5rem;
   height: calc(100vh - 76px);
-  overflow: visible;
+  max-height: calc(100vh - 76px);
+  overflow: hidden;
   background: transparent;
   border: none;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
 }
 
 .stats-container {
@@ -270,8 +274,8 @@
   flex: 1;
   overflow-y: auto;
   border: 1px solid var(--accent);
-  min-height: 120px;
-  max-height: 140px;
+  min-height: 180px;
+  max-height: 220px;
   box-shadow: 
     inset 0 2px 4px rgba(0, 0, 0, 0.1),
     0 1px 2px rgba(255, 255, 255, 0.1);
@@ -349,14 +353,14 @@
 /* Game Area */
 .game-area {
   padding: 1rem;
-  height: 100%;
+  height: calc(100vh - 116px);
+  max-height: calc(100vh - 116px);
   overflow: hidden;
   transition: all 0.5s ease;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: calc(100vh - 100px);
 }
 
 .game-area.game-active {
@@ -555,16 +559,39 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* Memory Buttons */
+/* Memory Button Base Styles */
 .memory-button {
+  position: relative;
   width: 120px;
   height: 120px;
+  border: 3px solid rgba(255, 255, 255, 0.8);
   border-radius: 15px;
   cursor: pointer;
-  position: relative;
-  transition: all 0.3s ease;
-  border: 3px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  user-select: none;
   overflow: hidden;
+}
+
+.memory-button .button-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.memory-button i {
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Smaller buttons for larger grids */
@@ -607,6 +634,11 @@
   transform: translateX(100%);
 }
 
+/* Disable shimmer effect during gameplay */
+.game-area.game-active .memory-button:hover::before {
+  transform: translateX(-100%);
+}
+
 .button-inner {
   width: 100%;
   height: 100%;
@@ -645,14 +677,80 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
+/* Disable hover effects during active gameplay to prevent animation conflicts */
+.game-area.game-active .memory-button:hover {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Disable hover effects during sequence display and when buttons are animating */
+.memory-button.active:hover,
+.memory-button.playing:hover,
+.memory-button.gentle-pulse:hover,
+.memory-button.shake-ripple:hover,
+.memory-button.click-feedback:hover {
+  transform: none !important;
+  box-shadow: inherit !important;
+}
+
+/* Disable hover effects when pointer events are disabled */
+.memory-button[style*="pointer-events: none"]:hover {
+  transform: none !important;
+  box-shadow: inherit !important;
+}
+
+/* Disable base transitions during gameplay to prevent interference with click animations */
+.game-area.game-active .memory-button {
+  transition: none !important;
+}
+
+.game-area.game-active .memory-button .button-inner {
+  transition: none !important;
+}
+
+.game-area.game-active .memory-button i {
+  transition: none !important;
+}
+
+/* But allow specific animation states to have transitions */
+.game-area.game-active .memory-button.active {
+  transition: all 0.3s ease !important;
+}
+
+.game-area.game-active .memory-button.active i {
+  transition: all 0.3s ease !important;
+}
+
+/* Allow quick flash to work without interference */
+.game-area.game-active .memory-button.quick-flash {
+  transition: all 0.1s ease !important;
+}
+
+.game-area.game-active .memory-button.quick-flash i {
+  transition: all 0.1s ease !important;
+}
+
+/* Click feedback state for better visual response */
+.memory-button.click-feedback {
+  z-index: 10; /* Ensure animated button is on top */
+  position: relative;
+}
+
+/* Ensure click feedback overrides all other states */
+.memory-button.click-feedback:hover {
+  transform: inherit !important;
+  box-shadow: inherit !important;
+}
+
 .memory-button:active {
   transform: translateY(0) scale(0.95);
 }
 
 .memory-button.active {
+  transition: all 0.2s ease !important;
   border-color: white;
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .memory-button.flash {
@@ -752,6 +850,110 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Enhanced Visual Feedback for Button Clicks */
+.memory-button.gentle-pulse {
+  animation: gentlePulse 0.8s ease-out;
+}
+
+.memory-button.shake-ripple {
+  animation: shakeRipple 0.8s ease-out;
+}
+
+@keyframes gentlePulse {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1.12); }
+  50% { transform: scale(1.08); }
+  70% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shakeRipple {
+  0%, 100% { transform: translateX(0) scale(1); }
+  10% { transform: translateX(-10px) scale(1.1); }
+  20% { transform: translateX(10px) scale(1.1); }
+  30% { transform: translateX(-8px) scale(1.08); }
+  40% { transform: translateX(8px) scale(1.08); }
+  50% { transform: translateX(-5px) scale(1.05); }
+  60% { transform: translateX(5px) scale(1.05); }
+  70% { transform: translateX(-2px) scale(1.02); }
+  80% { transform: translateX(2px) scale(1.02); }
+  90% { transform: translateX(0) scale(1.01); }
+}
+
+@keyframes ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+/* Quick flash animation for rapid clicking during input */
+.memory-button.quick-flash {
+  animation: quickFlash 0.2s ease-out;
+}
+
+@keyframes quickFlash {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Color feedback for quick-flash animation during rapid input */
+.memory-button[data-color="red"].quick-flash {
+  background: linear-gradient(135deg, #ff6b6b, #ff3333) !important;
+  border-color: #ff1a1a !important;
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.8), 0 4px 12px rgba(255, 51, 51, 0.4) !important;
+}
+
+.memory-button[data-color="red"].quick-flash i {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px #ff3333, 0 0 20px #ff6666;
+  transform: scale(1.15);
+}
+
+.memory-button[data-color="blue"].quick-flash {
+  background: linear-gradient(135deg, #748ffc, #4dabf7) !important;
+  border-color: #339af0 !important;
+  box-shadow: 0 0 20px rgba(116, 143, 252, 0.8), 0 4px 12px rgba(77, 171, 247, 0.4) !important;
+}
+
+.memory-button[data-color="blue"].quick-flash i {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px #4dabf7, 0 0 20px #74c0fc;
+  transform: scale(1.15);
+}
+
+.memory-button[data-color="green"].quick-flash {
+  background: linear-gradient(135deg, #86efac, #51cf66) !important;
+  border-color: #37b24d !important;
+  box-shadow: 0 0 20px rgba(134, 239, 172, 0.8), 0 4px 12px rgba(81, 207, 102, 0.4) !important;
+}
+
+.memory-button[data-color="green"].quick-flash i {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px #37b24d, 0 0 20px #51cf66;
+  transform: scale(1.15);
+}
+
+.memory-button[data-color="yellow"].quick-flash {
+  background: linear-gradient(135deg, #ffd43b, #fab005) !important;
+  border-color: #f59f00 !important;
+  box-shadow: 0 0 20px rgba(255, 212, 59, 0.8), 0 4px 12px rgba(250, 176, 5, 0.4) !important;
+}
+
+.memory-button[data-color="yellow"].quick-flash i {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px #fab005, 0 0 20px #ffd43b;
+  transform: scale(1.15);
 }
 
 /* Game Controls (controls panel layout) */
@@ -1040,11 +1242,17 @@
 }
 
 /* Settings Modal */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(4px);
+}
+
 .modal-content {
   background: var(--bg-color);
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   color: var(--text-color);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
 }
 
 .modal-header {
@@ -1109,450 +1317,49 @@
   color: white;
 }
 
-.difficulty-label {
-  font-size: 0.875rem;
-  opacity: 0.8;
-  font-weight: 400;
+/* Game state visibility controls */
+
+/* Sound Controls in Settings Modal */
+.settings-section {
+  border-bottom: 1px solid var(--stats-border);
+  padding-bottom: 1rem;
 }
 
-/* Enhanced Button Animations */
-.memory-button.shake-ripple {
-  animation: shakeRipple 0.6s ease-in-out;
+.settings-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
-/* Gentle pulse animation for correct clicks */
-.memory-button.gentle-pulse {
-  animation: gentlePulse 0.4s ease-in-out;
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 
-@keyframes gentlePulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+.form-range {
+  --bs-form-range-track-bg: var(--stats-border);
 }
 
-@keyframes shakeRipple {
-  0% { transform: translateX(0); }
-  10% { transform: translateX(-5px) scale(1.05); }
-  20% { transform: translateX(5px) scale(1.1); }
-  30% { transform: translateX(-3px) scale(1.05); }
-  40% { transform: translateX(3px) scale(1.02); }
-  50% { transform: translateX(-1px) scale(1.08); }
-  60% { transform: translateX(1px) scale(1.05); }
-  70% { transform: translateX(0) scale(1.02); }
-  80% { transform: translateX(0) scale(1.01); }
-  90% { transform: translateX(0) scale(1.005); }
-  100% { transform: translateX(0) scale(1); }
+.form-range::-webkit-slider-thumb {
+  background-color: var(--primary);
 }
 
-/* Ripple effect enhancement */
-.memory-button.ripple::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
-  transform: translate(-50%, -50%);
-  animation: rippleExpand 0.6s ease-out;
+.form-range::-moz-range-thumb {
+  background-color: var(--primary);
+  border: none;
 }
 
-@keyframes rippleExpand {
-  0% {
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  50% {
-    width: 80%;
-    height: 80%;
-    opacity: 0.5;
-  }
-  100% {
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-  }
+#testSoundBtn {
+  transition: all 0.2s ease;
 }
 
-/* Enhanced active state for button presses */
-.memory-button.pressed {
-  transform: scale(0.95);
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
-  transition: all 0.1s ease;
+#testSoundBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  .memory-button:hover {
-    transform: none;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 991px) {
-  .stats-panel {
-    margin-bottom: 30px;
-    height: auto;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .stats-container {
-    flex: none;
-    height: auto;
-  }
-  
-  .game-controls-container {
-    flex: none;
-  }
-  
-  .game-container {
-    padding: 15px;
-  }
-  
-  .game-area {
-    padding: 1rem;
-  }
-  
-  .controls-container {
-    padding: 1.5rem;
-  }
-  
-  .game-controls {
-    flex-direction: row;
-    justify-content: center;
-    gap: 15px;
-  }
-  
-  .game-controls .btn {
-    width: auto;
-    min-width: 140px;
-  }
-  
-  .difficulty-buttons {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .difficulty-btn {
-    width: auto;
-    min-width: 80px;
-  }
-  
-  .controls-panel.hidden {
-    transform: translateY(-30px);
-  }
-}
-
-@media (max-width: 768px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  
-  .game-area.game-active {
-    min-height: calc(100vh - 150px);
-  }
-  
-  .status-info {
-    flex-direction: column;
-    gap: 15px;
-    padding: 14px 24px;
-  }
-  
-  .game-message {
-    font-size: 1rem;
-    padding: 10px 20px;
-    max-width: 350px;
-  }
-  
-  .memory-button {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .button-grid[data-size="9"] .memory-button {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .button-grid[data-size="16"] .memory-button {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .button-grid[data-size="4"] .button-inner {
-    font-size: 2.5rem;
-  }
-  
-  .button-grid[data-size="9"] .button-inner {
-    font-size: 2rem;
-  }
-  
-  .button-grid[data-size="16"] .button-inner {
-    font-size: 1.5rem;
-  }
-  
-  .button-grid {
-    gap: 10px;
-    padding: 15px;
-  }
-  
-  .game-controls {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .game-controls .btn {
-    width: 200px;
-    font-size: 1rem;
-    padding: 12px 20px;
-  }
-  
-  .difficulty-buttons {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .difficulty-btn {
-    width: 150px;
-    font-size: 0.9rem;
-  }
-  
-  .difficulty-selection {
-    padding: 20px;
-    max-width: 300px;
-  }
-  
-  .difficulty-selection.hidden {
-    padding: 0 20px;
-  }
-}
-
-@media (max-width: 576px) {
-  .memory-button {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .button-grid[data-size="9"] .memory-button {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .button-grid[data-size="16"] .memory-button {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .button-grid[data-size="4"] .button-inner {
-    font-size: 2rem;
-  }
-  
-  .button-grid[data-size="9"] .button-inner {
-    font-size: 1.8rem;
-  }
-  
-  .button-grid[data-size="16"] .button-inner {
-    font-size: 1.3rem;
-  }
-  
-  .game-title {
-    font-size: 2rem;
-  }
-  
-  .stat-value {
-    font-size: 1.5rem;
-  }
-  
-  .stats-container {
-    padding: 1.5rem;
-  }
-  
-  .recent-games,
-  .performance-rating {
-    padding: 15px;
-  }
-  
-  .difficulty-selection {
-    padding: 15px;
-  }
-}
-
-/* Mobile-specific styles */
-@media (max-width: 768px) {
-  /* Adjust game container padding */
-  .game-container {
-    padding: 10px;
-  }
-  
-  /* Stack game content vertically */
-  .game-content {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-  
-  /* Full-width game board on mobile */
-  .game-board-container {
-    width: 100%;
-    max-width: none;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  /* Adjust side controls */
-  .side-controls {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  /* Hide game header on mobile */
-  .game-header {
-    display: none;
-  }
-  
-  /* Adjust stats panel for mobile */
-  .stats-panel {
-    position: relative;
-    height: auto;
-    overflow: visible;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: none;
-  }
-  
-  .stats-container {
-    padding: 1rem;
-    border: none;
-    box-shadow: none;
-  }
-  
-  /* Mobile-specific popup chat styles */
-  .popup-chat {
-    max-width: 160px;
-    font-size: 0.8rem;
-    padding: 10px 14px;
-  }
-  
-  .game-controls {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .difficulty-buttons {
-    gap: 8px;
-  }
-}
-
-/* Countdown timer styles */
-.countdown-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  border-radius: 20px;
-}
-
-.countdown-number {
-  font-size: 6rem;
-  font-weight: bold;
-  color: var(--primary-color);
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  animation: countdownPulse 1s ease-in-out;
-}
-
-@keyframes countdownPulse {
-  0% { transform: scale(0.5); opacity: 0; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* Risk/Reward modal styles */
-.risk-reward-modal .modal-content {
-  background: var(--bg-color);
-  border: 2px solid var(--primary-color);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.risk-reward-modal .modal-header {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  border-radius: 18px 18px 0 0;
-}
-
-.risk-reward-modal .modal-body {
-  padding: 2rem;
-}
-
-.risk-reward-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.risk-reward-stat {
-  background: var(--card-bg);
-  padding: 1rem;
-  border-radius: 12px;
-  text-align: center;
-  border: 1px solid var(--border-color);
-}
-
-.risk-reward-stat .stat-value {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--primary-color);
-}
-
-.risk-reward-stat .stat-label {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-}
-
-.risk-reward-options {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.risk-reward-options .btn {
-  flex: 1;
-  padding: 1rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.risk-reward-options .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+#volumeValue {
+  min-width: 40px;
+  font-weight: 500;
 }
 
 /* Game state visibility controls */
@@ -1564,4 +1371,429 @@
   display: none;
 }
 
-/* Game state visibility controls */
+/* Countdown Overlay - Fixed positioning to not affect layout */
+.countdown-overlay {
+  position: fixed;
+  top: 76px;
+  left: 33.333333%;
+  width: 66.666667%;
+  height: calc(100vh - 76px);
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+/* Center overlays when stats are hidden */
+.game-container.stats-hidden .countdown-overlay,
+.countdown-overlay.stats-hidden {
+  left: 0;
+  width: 100%;
+}
+
+.countdown-number {
+  font-size: 6rem;
+  font-weight: bold;
+  color: var(--primary);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  animation: countdownPulse 0.8s ease-out;
+}
+
+@keyframes countdownPulse {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Enhanced Button Press States - Smoother Transitions */
+.memory-button[data-color="red"].pressed {
+  background: linear-gradient(135deg, #ff4757, #ff3742) !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 25px rgba(255, 107, 107, 0.8), 0 0 50px rgba(255, 107, 107, 0.4) !important;
+  transform: scale(1.1) !important;
+  transition: all 0.2s ease-out !important;
+}
+
+.memory-button[data-color="blue"].pressed {
+  background: linear-gradient(135deg, #3742fa, #2f3542) !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 25px rgba(55, 66, 250, 0.8), 0 0 50px rgba(55, 66, 250, 0.4) !important;
+  transform: scale(1.1) !important;
+  transition: all 0.2s ease-out !important;
+}
+
+.memory-button[data-color="green"].pressed {
+  background: linear-gradient(135deg, #2ed573, #1dd1a1) !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 25px rgba(46, 213, 115, 0.8), 0 0 50px rgba(46, 213, 115, 0.4) !important;
+  transform: scale(1.1) !important;
+  transition: all 0.2s ease-out !important;
+}
+
+.memory-button[data-color="yellow"].pressed {
+  background: linear-gradient(135deg, #ffa502, #ff6348) !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 25px rgba(255, 165, 2, 0.8), 0 0 50px rgba(255, 165, 2, 0.4) !important;
+  transform: scale(1.1) !important;
+  transition: all 0.2s ease-out !important;
+}
+
+/* Test flash animation for pre-game button testing */
+.memory-button.test-flash {
+  transform: scale(1.05);
+  transition: all 0.15s ease-out;
+}
+
+.memory-button[data-color="red"].test-flash {
+  border-color: rgba(255, 107, 107, 0.8);
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+}
+
+.memory-button[data-color="blue"].test-flash {
+  border-color: rgba(116, 185, 255, 0.8);
+  box-shadow: 0 0 20px rgba(116, 185, 255, 0.5);
+}
+
+.memory-button[data-color="green"].test-flash {
+  border-color: rgba(134, 239, 172, 0.8);
+  box-shadow: 0 0 20px rgba(134, 239, 172, 0.5);
+}
+
+.memory-button[data-color="yellow"].test-flash {
+  border-color: rgba(255, 212, 59, 0.8);
+  box-shadow: 0 0 20px rgba(255, 212, 59, 0.5);
+}
+
+/* Game Over Overlay */
+.game-over-overlay {
+  position: fixed;
+  top: 76px;
+  left: 33.333333%;
+  width: 66.666667%;
+  height: calc(100vh - 76px);
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+/* Center game over overlay when stats are hidden */
+.game-container.stats-hidden .game-over-overlay,
+.game-over-overlay.stats-hidden {
+  left: 0;
+  width: 100%;
+}
+
+.game-over-overlay.show {
+  opacity: 1;
+}
+
+.game-over-overlay.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.game-over-content {
+  background: var(--alt);
+  border: 2px solid var(--accent);
+  border-radius: 20px;
+  padding: 3rem 4rem;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.game-over-overlay.show .game-over-content {
+  transform: scale(1);
+}
+
+.game-over-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.game-over-title small {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.game-over-hint {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+  animation: fadeInOut 2s infinite ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  /* Hide navbar on scroll for mobile */
+  .navbar.hidden {
+    transform: translateY(-100%);
+  }
+  
+  .navbar {
+    transition: transform 0.3s ease;
+    height: 50px !important;
+    min-height: 50px;
+    padding: 0.5rem 1rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1rem;
+  }
+  
+  .navbar-nav {
+    display: none;
+  }
+  
+  /* Mobile hamburger menu */
+  .mobile-menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.2rem;
+    padding: 0.25rem;
+  }
+  
+  .mobile-menu {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    padding: 1rem;
+  }
+  
+  .mobile-menu.active {
+    transform: translateY(0);
+  }
+  
+  .mobile-menu .nav-link {
+    display: block;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--nav-border);
+    color: var(--text);
+    text-decoration: none;
+  }
+  
+  .mobile-menu .nav-link:last-child {
+    border-bottom: none;
+  }
+  
+  /* Adjust game container for smaller navbar */
+  .game-container {
+    height: calc(100vh - 50px);
+    max-height: calc(100vh - 50px);
+    padding: 10px;
+  }
+  
+  /* Mobile-specific game adjustments */
+  .stats-panel {
+    position: fixed;
+    top: 50px;
+    right: -300px;
+    width: 300px;
+    height: calc(100vh - 50px);
+    background: var(--stats-bg);
+    border-left: 1px solid var(--stats-border);
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+  }
+  
+  .stats-panel.active {
+    right: 0;
+  }
+  
+  .stats-toggle-btn {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    z-index: 1001;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  
+  /* Game area takes full width on mobile */
+  .game-area {
+    width: 100%;
+    padding: 1rem 0.5rem;
+  }
+  
+  /* Memory grid responsive */
+  .memory-grid {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .memory-cell {
+    min-height: 60px;
+    margin: 2px;
+  }
+  
+  /* Smaller fonts and spacing */
+  .game-title {
+    font-size: 1.8rem;
+  }
+  
+  .game-header .lead {
+    font-size: 0.9rem;
+  }
+  
+  /* Touch improvements for mobile */
+  * {
+    touch-action: manipulation;
+  }
+  
+  /* Better touch targets */
+  .memory-cell {
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Improved button spacing */
+  .btn + .btn {
+    margin-left: 0.5rem;
+  }
+  
+  /* Better spacing for mobile */
+  .container-fluid {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  .navbar {
+    height: 45px !important;
+    min-height: 45px;
+  }
+  
+  .game-container {
+    height: calc(100vh - 45px);
+  }
+  
+  .mobile-menu {
+    top: 45px;
+  }
+  
+  .stats-panel {
+    top: 45px;
+    height: calc(100vh - 45px);
+  }
+  
+  .stats-toggle-btn {
+    top: 55px;
+  }
+}
+
+/* Desktop styles - show nav normally */
+@media (min-width: 769px) {
+  .mobile-menu-toggle {
+    display: none;
+  }
+  
+  .mobile-menu {
+    display: none;
+  }
+  
+  .navbar-nav {
+    display: flex !important;
+  }
+  
+  /* Stats Toggle Button - Desktop */
+  .stats-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    transform: translateY(-50%);
+    z-index: 1001;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .stats-toggle-btn:hover {
+    background: var(--primary);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.4);
+  }
+
+  .stats-toggle-btn:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  /* Hide stats panel by making it slide out to the left */
+  .stats-panel.hidden {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .stats-panel {
+    transition: transform 0.3s ease;
+  }
+
+  /* When stats panel is hidden, show toggle button on the left edge */
+  .stats-panel.hidden .stats-toggle-btn {
+    position: fixed;
+    top: 50%;
+    left: 15px;
+    right: auto;
+    transform: translateY(-50%);
+    z-index: 1001;
+  }
+
+  /* Adjust game area to take full width when stats are hidden */
+  .game-container.stats-hidden .col-lg-8 {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .game-container.stats-hidden .col-lg-4 {
+    display: none;
+  }
+}
